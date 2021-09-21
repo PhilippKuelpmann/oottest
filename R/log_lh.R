@@ -13,7 +13,7 @@ log_lh <- function(model_prediction, data_experiment) {
   # input consistency checks
   # input -> output
   # TODO: Fix!
-  output <- rowSums(data_experiment * log(model_prediction)) # not correct, need to add all?
+  output <- colSums(data_experiment * log(model_prediction)) # not correct, need to add all?
   # output <- data_experiment * log(model_prediction)+(rowSums(data_experiment)-data_experiment)*log(1-model_prediction) old 2x2
   # output consistency checks
   return(output)
