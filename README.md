@@ -1,19 +1,47 @@
 # oottest
 Out of treatment testing R package
 
-### TODOs
-- [ ] Follow [PKGS help](https://r-pkgs.org/intro.html)
-- [ ] Install [Styler](https://style.tidyverse.org/), also add to RStudio
-- [ ] Set up CI? [CI Guide](https://devguide.ropensci.org/ci.html#ci)
+## TODOs
+
+### Philipp
+- [ ] Send a single function to test
+
+### Now
+- [ ] (maybe) Read [PKGS help](https://r-pkgs.org/intro.html) (Ch 1-3)
+- [ ] Set up RStudio Project + test package (with the function from Philipp): [instructions sec 1-5](https://www.mzes.uni-mannheim.de/socialsciencedatalab/article/r-package)
+- [ ] Add [Styler](https://style.tidyverse.org/) to RStudio Project
 - [ ] Add basic functions
-- [ ] Add tests - https://r-pkgs.org/tests.html / https://r-pkgs.org/r-cmd-check.html#r-cmd-check
-- [ ] Add internal dataset (HDG & random?)
+- [ ] (maybe) Set up CI (Github actions): [CI Guide, 2.3.1](https://devguide.ropensci.org/ci.html#ci)
+
+## Roadmap
+- [ ] Set up RStudio Project -> Github
+- [ ] Set up "empty/test" package
+- [ ] Set up CI: https://devguide.ropensci.org/ci.html
+- [ ] Add basic oot_test function (+ everything that is required for it) (Philipp)
+- [ ] add internal datasets (HDG 2x2, 3x3 & random?)
+- [ ] add tests https://r-pkgs.org/tests.html / https://r-pkgs.org/r-cmd-check.html#r-cmd-check
+- [ ] Comments/Documentation
+- [ ] DESCRIPTION, help file, NEWS
+- [ ] Licence (GPL-2 or GPL-3?)
 - [ ] Add all other functions
-- [ ] fix DESCRIPTION
-- [ ] add vignette?
-- [ ] follow [CRAN instructions](https://www.mzes.uni-mannheim.de/socialsciencedatalab/article/r-package)
+- [ ] Submit to rOpenSci -> CRAN -> Journal? https://stats-devguide.ropensci.org/pkgdev.html
 - [ ] follow [Journal submission guide](https://www.jstatsoft.org/pages/view/authors)
-- [ ] Page for package: https://enpiar.com/2017/11/21/getting-down-with-pkgdown/
+
+### Optional
+- [ ] Vignette?
+- [ ] Page for package: https://enpiar.com/2017/11/21/getting-down-with-pkgdown/?
+
+
+### Broader picture
+- [ ] Set up environment + Project + "empty/test" package (including CI)
+- [ ] Add basic functions (using rOpenSci best practices)
+- [ ] Tests, documentation, etc (using rOpenSci best practices)
+- [ ] Check against rOpenSci checklist
+- [ ] Add other functions
+- [ ] Submit to rOpenSci
+- [ ] Sublish on CRAN
+- [ ] Send to journal
+
 
 ## Random notes
 
@@ -25,9 +53,12 @@ We strongly suggest submitting your package for review before publishing on CRAN
 https://devguide.ropensci.org/building.html
 https://devguide.ropensci.org/marketing.html
 https://devguide.ropensci.org/grooming.html
-For R packages, we encourage inclusion of JSS submissions as vignettes in the package.
-For R packages with functions that create compound objects, a minimum expectation is that R's classes and methods systems are leveraged, e.g., by making use of S3 classes and providing standard methods (such as print, plot, and summary). Software authors may also find it helpful to follow the advice in the guidelines described in the rOpenSci Statistical Software Peer Review book. It is not necessary for a JSS submission to fully conform with all the standards described there, though.
-Code needs to include the GNU General Public Licence (GPL), versions GPL-2 or GPL-3, or a GPL-compatible license for publication in JSS.
+
+### JSS recommendations
+- For R packages, we encourage inclusion of JSS submissions as vignettes in the package.
+- For R packages with functions that create compound objects, a minimum expectation is that R's classes and methods systems are leveraged, e.g., by making use of S3 classes and providing standard methods (such as print, plot, and summary).
+- Software authors may also find it helpful to follow the advice in the guidelines described in the rOpenSci Statistical Software Peer Review book. It is not necessary for a JSS submission to fully conform with all the standards described there, though.
+- Code needs to include the GNU General Public Licence (GPL), versions GPL-2 or GPL-3, or a GPL-compatible license for publication in JSS.
 
 ### Packages to load
 ```R
@@ -63,15 +94,12 @@ Add test(s) as .R files. The filename does not matter, just choose whatever you 
 Run the tests using devtools::test(). To get an estimation of your test coverage, you can use devtools::test_coverage().
 
 
-CRAN
-
-
-rOpenSci
+### rOpenSci
 https://stats-devguide.ropensci.org/
 https://devguide.ropensci.org/guide-for-authors.html
 
-Journals:
-  The Journal of Statistical Software
+### Journals
+https://www.jstatsoft.org                     The Journal of Statistical Software
 https://journal.r-project.org/                The R Journal
 https://openresearchsoftware.metajnl.com/     The Journal of Open Research Software
 https://joss.theoj.org/                       The Journal of Open Source Software
