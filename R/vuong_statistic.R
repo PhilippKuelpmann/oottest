@@ -3,7 +3,7 @@
 #' @noRd
 get_llr <- function(data, pred_I, pred_J) {
   # likelihood ratio of theory i and j
-  result <- ExperimentalData * log(pred_I / pred_J)
+  result <- data * log(pred_I / pred_J)
   result <- sum(result)
   return(result)
 }
