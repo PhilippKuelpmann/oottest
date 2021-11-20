@@ -73,9 +73,55 @@ vuong_statistic_3 <- function(data, pred_I, pred_J) {
   return(result)
 }
 
+#' Getting a vuong matrix
+#'
+#' @param data Data of the experiment (matrix of ints/data.frame): columns are observations of action 1,2,3..., rows are treatments.
+#' @param theories Model predictions for all theories. (how to structure? List of matrices?)
+#'
+#' @return Table of z-scores for all comparisons
+#'
+#' @examples (missing)
+#' @export
+vuong_matrix_3 <- function(data, theories) {
+  num_theories <- length(theories)
+  result <- matrix(, nrow=num_theories, ncol=num_theories)
+  for (i in 1:num_theories) {
+    for (j in 1:num_theories) {
+      result[i,j] <- vuong_statistic_3(data, theories[[i]], theories[[j]])
+    }
+  }
+  return(result)
+}
+
 # Random testing stuff
 # TODO: Move
-# test_data <-matrix(c(2,2,2,1,2,3), nrow=3, ncol=2)
+
+# AC = HDG, RSP = MP
+# num_theories <- length(all_theories_3)
+# theories_ac <- list()
+# theories_rsp <- list()
+# short <- c()
+# for (theory in 1:num_theories) {
+#   theories_ac[[theory]] <- t(all_theories_3[[theory]]@predictions_HDG)
+#   theories_rsp[[theory]] <- t(all_theories_3[[theory]]@predictions_RSP)
+#   short[[theory]] <- all_theories_3[[theory]]@short
+# }
+
+# ac_results <- vuong_matrix_3(ac_data, theories = theories_ac)
+# rsp_results <- vuong_matrix_3(rsp_data, theories = theories_rsp)
+# rownames(ac_results) <- short
+# rownames(rsp_results) <- short
+# colnames(ac_results) <- short
+# colnames(rsp_results) <- short
+
+# library("openxlsx")
+# write.xlsx(format(as.data.frame(ac_results), digits=2), "vuong_scores_ac.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
+# write.xlsx(format(as.data.frame(rsp_results), digits=2), "vuong_scores_rsp.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
+
+
+
+# t(all_theories_3[[1]]@predictions_HDG)
+# test_data <-matrix(c(2,2,2,1,2,3), nrow=3, ncol=5)
 # theory_1 <- matrix(c(1/3,1/3,1/3), nrow=3, ncol=2)
 # theory_2 <- matrix(c(1/4,1/4,1/2), nrow=3, ncol=2)
 # vuong_statistic_3(test_data, theory_1, theory_2)
