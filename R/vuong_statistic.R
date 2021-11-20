@@ -23,16 +23,23 @@ get_variance_of_llr <- function(data, pred_I, pred_J) {
 }
 
 #' Getting the variance of the log-likelihood ratio
-#'
+#' pred[action, treatment]
 #' Only for 3 categories and broken right now
 #'
 #' @noRd
 get_variance_of_llr_3 <- function(data, pred_I, pred_J) {
-  # \sum limits_{t=1}^{10} (\sum \limits_{l=1}^3 log() ExperimentalData[1, t] log(PredictionI[1, t] / PredictionJ[1, t]) + ExperimentalData[2, t] log(PredictionI[2, t] / PredictionJ[2, t])
-  # sum (all t) sum(all l) data * log(pred_I/pred_J)^2 - 2 * sum \limits_{l=1}^{2} \sum \limits_{m=l+1}^3 (data[l] * data[m]) / n  * log(pred_I[l]/pred_J[l]) log(pred_I[m]/pred_J[m])
-  # TODO: Fix this!
-  result <- sum(result)
-  return(result)
+  treatments <- ncol(data)
+  n <- colSums(data)
+  output <- rep(0, treatments)
+  for (t in 1:treatments) {
+    output[t] <- output[t] + sum(data[, t] * log(pred_I[, t] / pred_J[, t])^2) # summing over all actions
+    for (l in 1:2) {
+      for (m in (l+1):3) {
+        output[t] <- output[t] - 2 * (data[l, t] * data[m, t]) / n[t]  * log(pred_I[l, t]/pred_J[l, t]) * log(pred_I[m, t]/pred_J[m, t])
+      }
+    }
+  }
+  return(sum(output))
 }
 
 #' Implementation of the Vuong test for our setting
@@ -51,7 +58,27 @@ vuong_statistic <- function(data, pred_I, pred_J) {
 }
 
 
+#' Implementation of the Vuong test for our setting 3x3
+#'
+#' @param data Data of the experiment (matrix of ints/data.frame): columns are observations of action 1,2,3..., rows are treatments.
+#' @param pred_I Model prediction for a theory (matrix of doubles/data.frame): columns are prediction of playing action 1,2,3..., rows are treatments
+#' @param pred_J Model prediction for a theory (matrix of doubles/data.frame): columns are prediction of playing action 1,2,3..., rows are treatments
+#'
+#' @return The z score of testing theory I against theory J, given the data
+#'
+#' @examples (missing)
+#' @export
+vuong_statistic_3 <- function(data, pred_I, pred_J) {
+  result <- get_llr(data, pred_I, pred_J) / get_variance_of_llr_3(data, pred_I, pred_J)^(.5)
+  return(result)
+}
 
+# Random testing stuff
+# TODO: Move
+# test_data <-matrix(c(2,2,2,1,2,3), nrow=3, ncol=2)
+# theory_1 <- matrix(c(1/3,1/3,1/3), nrow=3, ncol=2)
+# theory_2 <- matrix(c(1/4,1/4,1/2), nrow=3, ncol=2)
+# vuong_statistic_3(test_data, theory_1, theory_2)
 # ExperimentalData <- matrix(data = 2, nrow = 4, ncol = 2, byrow=TRUE)
 # PredictionI <- matrix(data = c(.5, .5, .6, .4, .7, .3, .8, .2), nrow = 4, ncol = 2, byrow=TRUE)
 # PredictionJ <- matrix(data = c(.5, .5, .5, .5, .5, .5, .5, .5), nrow = 4, ncol = 2, byrow=TRUE)
