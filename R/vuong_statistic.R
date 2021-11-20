@@ -34,8 +34,8 @@ get_variance_of_llr_3 <- function(data, pred_I, pred_J) {
   for (t in 1:treatments) {
     output[t] <- output[t] + sum(data[, t] * log(pred_I[, t] / pred_J[, t])^2) # summing over all actions
     for (l in 1:2) {
-      for (m in (l+1):3) {
-        output[t] <- output[t] - 2 * (data[l, t] * data[m, t]) / n[t]  * log(pred_I[l, t]/pred_J[l, t]) * log(pred_I[m, t]/pred_J[m, t])
+      for (m in (l + 1):3) {
+        output[t] <- output[t] - 2 * (data[l, t] * data[m, t]) / n[t] * log(pred_I[l, t] / pred_J[l, t]) * log(pred_I[m, t] / pred_J[m, t])
       }
     }
   }
@@ -84,10 +84,10 @@ vuong_statistic_3 <- function(data, pred_I, pred_J) {
 #' @export
 vuong_matrix_3 <- function(data, theories) {
   num_theories <- length(theories)
-  result <- matrix(, nrow=num_theories, ncol=num_theories)
+  result <- matrix(, nrow = num_theories, ncol = num_theories)
   for (i in 1:num_theories) {
     for (j in 1:num_theories) {
-      result[i,j] <- vuong_statistic_3(data, theories[[i]], theories[[j]])
+      result[i, j] <- vuong_statistic_3(data, theories[[i]], theories[[j]])
     }
   }
   return(result)
