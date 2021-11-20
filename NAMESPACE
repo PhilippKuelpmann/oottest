@@ -2,3 +2,4 @@
 
 export(hello)
 export(vuong_statistic)
+export(vuong_statistic_3)
