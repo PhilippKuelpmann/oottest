@@ -30,35 +30,6 @@ reproduce_3_actions <- function() {
     return(list(ac_results, rsp_results, rsp_results_p1, rsp_results_p2))
 }
 
-reproduce_2_actions <- function() {
-  num_theories <- length(all_theories_3)
-  theories_ac <- list()
-  theories_rsp <- list()
-  theories_rsp_p1 <- list()
-  theories_rsp_p2 <- list()
-  short <- c()
-  for (theory in 1:num_theories) {
-    theories_ac[[theory]] <- t(all_theories_3[[theory]]@predictions_HDG)
-    theories_rsp[[theory]] <- t(all_theories_3[[theory]]@predictions_RSP)
-    theories_rsp_p1[[theory]] <- t(all_theories_3[[theory]]@predictions_RSP[1:5,])
-    theories_rsp_p2[[theory]] <- t(all_theories_3[[theory]]@predictions_RSP[6:10,])
-    short[[theory]] <- all_theories_3[[theory]]@short
-  }
-  ac_results <- vuong_matrix(ac_data, theories = theories_ac)
-  rsp_results <- vuong_matrix(rsp_data, theories = theories_rsp)
-  rsp_results_p1 <- vuong_matrix(rsp_data[,1:5], theories = theories_rsp_p1)
-  rsp_results_p2 <- vuong_matrix(rsp_data[,6:10], theories = theories_rsp_p2)
-  rownames(ac_results) <- short
-  rownames(rsp_results) <- short
-  colnames(ac_results) <- short
-  colnames(rsp_results) <- short
-  rownames(rsp_results_p1) <- short
-  rownames(rsp_results_p2) <- short
-  colnames(rsp_results_p1) <- short
-  colnames(rsp_results_p2) <- short
-  return(list(ac_results, rsp_results, rsp_results_p1, rsp_results_p2))
-}
-
 #library("openxlsx")
 #write.xlsx(format(as.data.frame(rsp_results_p1), digits=2), "vuong_scores_rsp_p1.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
 #write.xlsx(format(as.data.frame(rsp_results_p2), digits=2), "vuong_scores_rsp_p2.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
