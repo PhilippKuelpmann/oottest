@@ -60,7 +60,7 @@ vuong_statistic_3 <- function(data, pred_I, pred_J) {
   if (llr == 0) { # TODO: exactly zero?
     result <- 0
   } else {
-    result <- - llr/var^(.5)
+    result <- -llr / var^(.5)
   }
   return(result)
 }
