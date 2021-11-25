@@ -21,7 +21,7 @@ get_variance_of_llr <- function(data, pred_I, pred_J) {
   n <- colSums(data)
   output <- rep(0, treatments)
   for (t in 1:treatments) {
-    output[t] <- output[t] + sum(data[, t] * log(pred_I[, t] / pred_J[, t])^2) # summing over all actions
+    output[t] <- output[t] + sum(data[, t] * (n[t] - data[,t]) / n[t] * log(pred_I[, t] / pred_J[, t])^2) # summing over all actions
     for (l in 1:(actions - 1)) {
       for (m in (l + 1):actions) {
         output[t] <- output[t] - 2 * (data[l, t] * data[m, t]) / n[t] * log(pred_I[l, t] / pred_J[l, t]) * log(pred_I[m, t] / pred_J[m, t])
