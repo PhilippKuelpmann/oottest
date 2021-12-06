@@ -49,3 +49,42 @@
 #' }
 #' @source \url{http://madeitup.myself/}
 "all_theories_3"
+
+#' Data: HDG data
+#'
+#' Blabla!
+#'
+#' @format Need to reformat anyway ...
+#' \describe{
+#'   \item{rows}{actions}
+#'   \item{columns}{treatments}
+#'   ...
+#' }
+#' @source \url{http://madeitup.myself/}
+"hdg_data"
+
+#' Data: MP Data
+#'
+#' Blabla!
+#'
+#' @format Need to reformat anyway ...
+#' \describe{
+#'   \item{rows}{actions}
+#'   \item{columns}{treatments}
+#'   ...
+#' }
+#' @source \url{http://madeitup.myself/}
+"mp_data"
+
+#' Theory predictions: 2x2 games
+#'
+#' Blabla!
+#'
+#' @format Need to reformat anyway ...
+#' \describe{
+#'   \item{rows}{actions}
+#'   \item{columns}{treatments}
+#'   ...
+#' }
+#' @source \url{http://madeitup.myself/}
+"all_theories_2"
