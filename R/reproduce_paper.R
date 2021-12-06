@@ -30,6 +30,64 @@ reproduce_3_actions <- function() {
   return(list(ac_results, rsp_results, rsp_results_p1, rsp_results_p2))
 }
 
+
+
+#' Reproduce data from Külpmann Kuzmics: 2 action, 2 player games, chi-square tests
+#'
+#' @noRd
+reproduce_2_chi_sq_mp <- function() {
+  output <- c()
+  num_theories <- ncol(all_theories_2)
+  for (i in 1:num_theories) {
+    pred_MP <- rbind(all_theories_2[,i]$MPpredictions, 1- all_theories_2[,i]$MPpredictions)
+    # pred_HDG <- rbind(all_theories_2[,theory]$HDGpredictions, 1- all_theories_2[,theory]$HDGpredictions)
+    output <- rbind(output, get_chi_sq(mp_data, pred_MP))
+  }
+  return(output)
+}
+
+#' Reproduce data from Külpmann Kuzmics: 2 action, 2 player games, chi-square tests
+#'
+#' @noRd
+reproduce_2_chi_sq_hdg <- function() {
+  output <- c()
+  num_theories <- ncol(all_theories_2)
+  for (i in 1:num_theories) {
+    pred <- rbind(all_theories_2[,i]$HDGpredictions, 1- all_theories_2[,i]$HDGpredictions)
+    output <- rbind(output, get_chi_sq(hdg_data, pred))
+  }
+  return(output)
+}
+
+#' Reproduce data from Külpmann Kuzmics: 3 action, 2 player games, chi-square tests
+#'
+#' @noRd
+reproduce_3_chi_sq_hdg <- function() {
+  output <- c()
+  num_theories <- length(all_theories_3)
+  for (i in 1:num_theories) {
+    pred <- t(all_theories_3[[i]]@predictions_HDG)
+    # pred_HDG <- rbind(all_theories_2[,theory]$HDGpredictions, 1- all_theories_2[,theory]$HDGpredictions)
+    output <- rbind(output, get_chi_sq(ac_data, pred))
+  }
+  return(output)
+}
+
+
+#' Reproduce data from Külpmann Kuzmics: 3 action, 2 player games, chi-square tests
+#'
+#' @noRd
+reproduce_3_chi_sq_ac <- function() {
+  output <- c()
+  num_theories <- length(all_theories_3)
+  for (i in 1:num_theories) {
+    pred <- t(all_theories_3[[i]]@predictions_RSP)
+    # pred_HDG <- rbind(all_theories_2[,theory]$HDGpredictions, 1- all_theories_2[,theory]$HDGpredictions)
+    output <- rbind(output, get_chi_sq(rsp_data, pred))
+  }
+  return(output)
+}
+
 # library("openxlsx")
 # write.xlsx(format(as.data.frame(rsp_results_p1), digits=2), "vuong_scores_rsp_p1.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
 # write.xlsx(format(as.data.frame(rsp_results_p2), digits=2), "vuong_scores_rsp_p2.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
