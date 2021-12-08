@@ -88,61 +88,35 @@ reproduce_3_chi_sq_ac <- function() {
   return(output)
 }
 
-# library("openxlsx")
-# write.xlsx(format(as.data.frame(rsp_results_p1), digits=2), "vuong_scores_rsp_p1.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
-# write.xlsx(format(as.data.frame(rsp_results_p2), digits=2), "vuong_scores_rsp_p2.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
 
-
-# num_theories <- length(all_theories_3)
-# theories_ac <- list()
-# theories_rsp <- list()
-# short <- c()
-# for (theory in 1:num_theories) {
-#   theories_ac[[theory]] <- t(all_theories_3[[theory]]@predictions_HDG)
-#   theories_rsp[[theory]] <- t(all_theories_3[[theory]]@predictions_RSP)
-#   short[[theory]] <- all_theories_3[[theory]]@short
-# }
-
-# ac_results <- vuong_matrix_3(ac_data, theories = theories_ac)
-# rsp_results <- vuong_matrix_3(rsp_data, theories = theories_rsp)
-# rownames(ac_results) <- short
-# rownames(rsp_results) <- short
-# colnames(ac_results) <- short
-# colnames(rsp_results) <- short
-
-
-# Random testing stuff
-# TODO: Move
-
-# AC = HDG, RSP = MP
-# num_theories <- length(all_theories_3)
-# theories_ac <- list()
-# theories_rsp <- list()
-# short <- c()
-# for (theory in 1:num_theories) {
-#   theories_ac[[theory]] <- t(all_theories_3[[theory]]@predictions_HDG)
-#   theories_rsp[[theory]] <- t(all_theories_3[[theory]]@predictions_RSP)
-#   short[[theory]] <- all_theories_3[[theory]]@short
-# }
-
-# ac_results <- vuong_matrix_3(ac_data, theories = theories_ac)
-# rsp_results <- vuong_matrix_3(rsp_data, theories = theories_rsp)
-# rownames(ac_results) <- short
-# rownames(rsp_results) <- short
-# colnames(ac_results) <- short
-# colnames(rsp_results) <- short
-
-# library("openxlsx")
-# write.xlsx(format(as.data.frame(ac_results), digits=2), "vuong_scores_ac.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
-# write.xlsx(format(as.data.frame(rsp_results), digits=2), "vuong_scores_rsp.xlsx", asTable=TRUE, colNames=TRUE, rowNames=TRUE)
-
-
-
-# t(all_theories_3[[1]]@predictions_HDG)
-# test_data <-matrix(c(2,2,2,1,2,3), nrow=3, ncol=5)
-# theory_1 <- matrix(c(1/3,1/3,1/3), nrow=3, ncol=2)
-# theory_2 <- matrix(c(1/4,1/4,1/2), nrow=3, ncol=2)
-# vuong_statistic_3(test_data, theory_1, theory_2)
-# ExperimentalData <- matrix(data = 2, nrow = 4, ncol = 2, byrow=TRUE)
-# PredictionI <- matrix(data = c(.5, .5, .6, .4, .7, .3, .8, .2), nrow = 4, ncol = 2, byrow=TRUE)
-# PredictionJ <- matrix(data = c(.5, .5, .5, .5, .5, .5, .5, .5), nrow = 4, ncol = 2, byrow=TRUE)
+#' Reproduce data from Külpmann Kuzmics: likelihood tables, second part
+#'
+#' @noRd
+create_likelihood_tex_table_3 <- function(game = "AC") {
+  #AC or RSP
+  output_table <- c()
+  names <- c()
+  if (game == "RSP") {
+    for (i in 1:14) {
+      output_table <- rbind(output_table, get_log_lh(rsp_data, prediction = t(all_theories_3[[i]]@predictions_RSP)))
+      names <- c(names, all_theories_3[[i]]@short)
+    }
+  } else {
+    for (i in 1:14) {
+      output_table <- rbind(output_table, get_log_lh(ac_data, prediction = t(all_theories_3[[i]]@predictions_HDG)))
+      names <- c(names, all_theories_3[[i]]@short)
+    }
+  }
+  rownames(output_table) <- names
+  if (game == "RSP") {
+    output_table_asym <- cbind(output_table[,1:5], rowSums(output_table[,1:5]))
+    output_table_sym <- cbind(output_table[,6:10], rowSums(output_table[,6:10]))
+    colnames(output_table_asym) <- c("T1", "T2", "T3", "T4","T5", "SUM")
+    colnames(output_table_sym) <- c("T6","T7", "T8","T9", "T10", "SUM")
+    print(xtable(output_table_asym, type = "latex"))
+    print(xtable(output_table_sym, type = "latex"))
+  }
+  output_table <- cbind(output_table, rowSums(output_table))
+  colnames(output_table) <- c("T1", "T2", "T3", "T4","T5", "T6","T7", "T8","T9", "T10", "SUM")
+  print(xtable(output_table, type = "latex"))
+}
