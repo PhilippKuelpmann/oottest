@@ -92,7 +92,7 @@ reproduce_3_chi_sq_ac <- function() {
 #' Reproduce data from Külpmann Kuzmics: likelihood tables, second part
 #'
 #' @noRd
-create_likelihood_tex_table_3 <- function(game = "AC") {
+create_likelihood_tex_tables_3 <- function(game = "AC") {
   #AC or RSP
   output_table <- c()
   names <- c()
@@ -108,15 +108,102 @@ create_likelihood_tex_table_3 <- function(game = "AC") {
     }
   }
   rownames(output_table) <- names
+  output_table <- cbind(output_table, rowSums(output_table))
   if (game == "RSP") {
     output_table_asym <- cbind(output_table[,1:5], rowSums(output_table[,1:5]))
     output_table_sym <- cbind(output_table[,6:10], rowSums(output_table[,6:10]))
-    colnames(output_table_asym) <- c("T1", "T2", "T3", "T4","T5", "SUM")
-    colnames(output_table_sym) <- c("T6","T7", "T8","T9", "T10", "SUM")
+    colnames(output_table) <- c("T31", "T32", "T33", "T34","T35", "T36","T37", "T38","T39", "T40", "SUM")
+    colnames(output_table_asym) <- c("T31", "T32", "T33", "T34","T35", "SUM")
+    colnames(output_table_sym) <- c("T36","T37", "T38","T39", "T40", "SUM")
     print(xtable(output_table_asym, type = "latex"))
     print(xtable(output_table_sym, type = "latex"))
+  } else {
+    colnames(output_table) <- c("T21", "T22", "T23", "T24","T25", "T26","T27", "T28","T29", "T30", "SUM")
   }
-  output_table <- cbind(output_table, rowSums(output_table))
-  colnames(output_table) <- c("T1", "T2", "T3", "T4","T5", "T6","T7", "T8","T9", "T10", "SUM")
   print(xtable(output_table, type = "latex"))
 }
+
+
+#' clean predictions for 2x2 games
+#'
+#' @noRd
+clean_theory_predictions_2 <- function(add_third = FALSE) {
+  predictions <- list()
+  names <- list()
+  for (theory in 1:14) {
+    hdg_pred <- all_theories_2[,theory]$HDGpredictions
+    mp_pred <- all_theories_2[,theory]$MPpredictions
+    predictions[[theory]] <- rbind(c(hdg_pred, mp_pred), c(1-hdg_pred, 1-mp_pred))
+    row.names(predictions[[theory]]) <- c("A", "B")
+    if (add_third == TRUE) {
+      predictions[[theory]] <- rbind(predictions[[theory]], 0)
+    }
+    colnames(predictions[[theory]]) <- c("T01", "T02", "T03", "T04","T05", "T06","T07", "T08","T09", "T10", "T11", "T12", "T13", "T14","T15", "T16","T17", "T18","T19", "T20")
+    names <- c(names, all_theories_2[,theory]$short)
+  }
+  return(predictions)
+}
+
+#' clean predictions for 3x2 games
+#'
+#' @noRd
+clean_theory_predictions_3 <- function() {
+  num_theories <- length(all_theories_3)
+  theories_ac <- list()
+  theories_rsp <- list()
+  for (theory in 1:num_theories) {
+    predictions[[theory]] <- t(rbind(all_theories_3[[theory]]@predictions_HDG, all_theories_3[[theory]]@predictions_RSP))
+    colnames(predictions[[theory]]) <- c("T21", "T22", "T23", "T24","T25", "T26","T27", "T28","T29", "T30", "T31", "T32", "T33", "T34","T35", "T36","T37", "T38","T39", "T40")
+  }
+  return(predictions)
+}
+
+
+#' Reproduce data from Külpmann Kuzmics: Vuong table: 2x2
+#'
+#' @noRd
+create_vuong_table_2 <- function() {
+  # merge data
+  data_2 <- cbind(hdg_data, mp_data)
+  preds_2 <- clean_theory_predictions_2()
+  vuong_matrix(data_2, theories = preds_2)
+}
+
+#' Reproduce data from Külpmann Kuzmics: Vuong table: 3x2
+#'
+#' @noRd
+create_vuong_table_3 <- function() {
+  # merge data
+  data_3 <- cbind(ac_data, rsp_data)
+  preds_3 <- clean_theory_predictions_3()
+  vuong_matrix(data_3, theories = preds_3)
+}
+
+#' Reproduce data from Külpmann Kuzmics: Vuong table: all
+#'
+#' Returns only NaNs for now due to log(0)'s
+#' Need to adjust the variance and llr by hand
+#' @noRd
+create_vuong_table_all <- function() {
+  C <- 0 # added to the 2x2 games as an unused and unpredicted action
+  data_2 <- cbind(hdg_data, mp_data)
+  data_3 <- cbind(ac_data, rsp_data)
+  data_all <- cbind(rbind(data_2, C), data_3)
+  preds_2 <- clean_theory_predictions_2(add_third = TRUE)
+  preds_3 <- clean_theory_predictions_3()
+  preds_all <- list()
+  for (theory in 1:14) {
+    preds_all[[theory]] <- cbind(preds_2[[theory]], preds_3[[theory]])
+  }
+  # vuong_matrix(data_all, theories = preds_all)
+  vuong_matrix(rbind(data_2, C), theories = preds_2)
+}
+
+
+# >>>>> Old stuff <<<<<
+# c("T01", "T02", "T03", "T04","T05", "T06","T07", "T08","T09", "T10", "T11", "T12", "T13", "T14","T15", "T16","T17", "T18","T19", "T20")
+# c("T21", "T22", "T23", "T24","T25", "T26","T27", "T28","T29", "T30", "T31", "T32", "T33", "T34","T35", "T36","T37", "T38","T39", "T40")
+# colnames(ac_data) <- c("T21", "T22", "T23", "T24","T25", "T26","T27", "T28","T29", "T30")
+# colnames(rsp_data) <- c("T31", "T32", "T33", "T34","T35", "T36","T37", "T38","T39", "T40")
+# row.names(rsp_data) <- c("A", "B", "C")
+

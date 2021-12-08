@@ -17,7 +17,7 @@ vuong_statistic <- function(data, pred_I, pred_J) {
 #' Getting a vuong matrix
 #'
 #' @param data Data of the experiment (matrix of ints/data.frame): columns are observations of action 1,2,3..., rows are treatments.
-#' @param theories Model predictions for all theories. (how to structure? array? data table? list of matrices?)
+#' @param theories Model predictions for all theories. (theories is a list?)
 #'
 #' @return Table of z-scores for all comparisons
 #'
