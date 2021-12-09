@@ -89,6 +89,21 @@ reproduce_3_chi_sq_ac <- function() {
 }
 
 
+#' Reproduce data from Külpmann Kuzmics: likelihood tables, first part
+#'
+#' @noRd
+create_likelihood_tex_tables_2 <- function() {
+  output_table <- c()
+  pred_2 <- clean_theory_predictions_2()
+  data_2 <- cbind(hdg_data, mp_data)
+  for (i in 1:14) {
+    output_table <- rbind(output_table, get_log_lh(data_2, prediction = pred_2[[i]]))
+  }
+  rownames(output_table) <- names(pred_2)
+  colnames(output_table) <- c("T01", "T02", "T03", "T04","T05", "T06","T07", "T08","T09", "T10", "T11", "T12", "T13", "T14","T15", "T16","T17", "T18","T19", "T20")
+  return(output_table)
+}
+
 #' Reproduce data from Külpmann Kuzmics: likelihood tables, second part
 #'
 #' @noRd
@@ -120,7 +135,7 @@ create_likelihood_tex_tables_3 <- function(game = "AC") {
   } else {
     colnames(output_table) <- c("T21", "T22", "T23", "T24","T25", "T26","T27", "T28","T29", "T30", "SUM")
   }
-  print(xtable(output_table, type = "latex"))
+  return(output_table)
 }
 
 
@@ -129,7 +144,7 @@ create_likelihood_tex_tables_3 <- function(game = "AC") {
 #' @noRd
 clean_theory_predictions_2 <- function(add_third = FALSE) {
   predictions <- list()
-  names <- list()
+  theory_names <- c()
   for (theory in 1:14) {
     hdg_pred <- all_theories_2[,theory]$HDGpredictions
     mp_pred <- all_theories_2[,theory]$MPpredictions
@@ -139,8 +154,9 @@ clean_theory_predictions_2 <- function(add_third = FALSE) {
       predictions[[theory]] <- rbind(predictions[[theory]], 0)
     }
     colnames(predictions[[theory]]) <- c("T01", "T02", "T03", "T04","T05", "T06","T07", "T08","T09", "T10", "T11", "T12", "T13", "T14","T15", "T16","T17", "T18","T19", "T20")
-    names <- c(names, all_theories_2[,theory]$short)
+    theory_names <- c(theory_names, all_theories_2[,theory]$short)
   }
+  names(predictions) <- theory_names
   return(predictions)
 }
 
@@ -151,10 +167,14 @@ clean_theory_predictions_3 <- function() {
   num_theories <- length(all_theories_3)
   theories_ac <- list()
   theories_rsp <- list()
+  predictions <- list()
+  theory_names <- c()
   for (theory in 1:num_theories) {
     predictions[[theory]] <- t(rbind(all_theories_3[[theory]]@predictions_HDG, all_theories_3[[theory]]@predictions_RSP))
     colnames(predictions[[theory]]) <- c("T21", "T22", "T23", "T24","T25", "T26","T27", "T28","T29", "T30", "T31", "T32", "T33", "T34","T35", "T36","T37", "T38","T39", "T40")
+    theory_names <- c(theory_names, all_theories_3[[theory]]@short)
   }
+  names(predictions) <- theory_names
   return(predictions)
 }
 
@@ -166,7 +186,10 @@ create_vuong_table_2 <- function() {
   # merge data
   data_2 <- cbind(hdg_data, mp_data)
   preds_2 <- clean_theory_predictions_2()
-  vuong_matrix(data_2, theories = preds_2)
+  result <- vuong_matrix(data_2, theories = preds_2)
+  colnames(result) <- names(preds_2)
+  row.names(result) <- names(preds_2)
+  return(result)
 }
 
 #' Reproduce data from Külpmann Kuzmics: Vuong table: 3x2
@@ -176,29 +199,39 @@ create_vuong_table_3 <- function() {
   # merge data
   data_3 <- cbind(ac_data, rsp_data)
   preds_3 <- clean_theory_predictions_3()
-  vuong_matrix(data_3, theories = preds_3)
+  result <- vuong_matrix(data_3, theories = preds_3)
+  colnames(result) <- names(preds_3)
+  row.names(result) <- names(preds_3)
+  return(result)
 }
 
 #' Reproduce data from Külpmann Kuzmics: Vuong table: all
 #'
-#' Returns only NaNs for now due to log(0)'s
+#' (llr_2 + llr_3)/((variance_2 + variance_3))^(.5)
 #' Need to adjust the variance and llr by hand
 #' @noRd
 create_vuong_table_all <- function() {
-  C <- 0 # added to the 2x2 games as an unused and unpredicted action
+  # (llr_2 + llr_3)/((variance_2 + variance_3))^(.5)
   data_2 <- cbind(hdg_data, mp_data)
   data_3 <- cbind(ac_data, rsp_data)
-  data_all <- cbind(rbind(data_2, C), data_3)
-  preds_2 <- clean_theory_predictions_2(add_third = TRUE)
+  preds_2 <- clean_theory_predictions_2()
   preds_3 <- clean_theory_predictions_3()
-  preds_all <- list()
-  for (theory in 1:14) {
-    preds_all[[theory]] <- cbind(preds_2[[theory]], preds_3[[theory]])
+  names <- c()
+  num_theories <- 14
+  result <- matrix(, nrow = num_theories, ncol = num_theories)
+  for (i in 1:num_theories) {
+    for (j in 1:num_theories) {
+      variance_2 <- get_variance_of_llr(data_2, preds_2[[i]], preds_2[[j]])
+      variance_3 <- get_variance_of_llr(data_3, preds_3[[i]], preds_3[[j]])
+      llr_2 <- get_llr(data_2, preds_2[[i]], preds_2[[j]])
+      llr_3 <- get_llr(data_3, preds_3[[i]], preds_3[[j]])
+      result[i, j] <- (llr_2 + llr_3)/(variance_2 + variance_3)^(.5)
+    }
   }
-  # vuong_matrix(data_all, theories = preds_all)
-  vuong_matrix(rbind(data_2, C), theories = preds_2)
+  colnames(result) <- names(preds_3)
+  row.names(result) <- names(preds_3)
+  return(result)
 }
-
 
 # >>>>> Old stuff <<<<<
 # c("T01", "T02", "T03", "T04","T05", "T06","T07", "T08","T09", "T10", "T11", "T12", "T13", "T14","T15", "T16","T17", "T18","T19", "T20")
@@ -206,4 +239,39 @@ create_vuong_table_all <- function() {
 # colnames(ac_data) <- c("T21", "T22", "T23", "T24","T25", "T26","T27", "T28","T29", "T30")
 # colnames(rsp_data) <- c("T31", "T32", "T33", "T34","T35", "T36","T37", "T38","T39", "T40")
 # row.names(rsp_data) <- c("A", "B", "C")
+
+# library("xtable")
+# xtable(create_vuong_table_2(), format="latex")
+# xtable(create_vuong_table_3(), format="latex")
+# xtable(create_vuong_table_all(), format="latex")
+
+#' Reproduce data from Külpmann Kuzmics: LLR graph
+#'
+#' Need to adjust the variance and llr by hand
+#' @noRd
+create_llr_graph_files <- function(){
+  create_likelihood_tex_tables_3(game="AC")[,-11]
+  create_likelihood_tex_tables_3(game="RSP")[,-11]
+  llr_3 <- cbind(create_likelihood_tex_tables_3(game="AC")[,-11], create_likelihood_tex_tables_3(game="RSP")[,-11])
+  llr_2 <- create_likelihood_tex_tables_2()
+  llr <- cbind(llr_2, llr_3)
+  # 2: NA-RA
+  # 5: CH_RA <- normalized to 1
+  # 9: QLK-RA
+  # 11: QCH-RA
+
+  CH_normalizer <- llr[5,]
+  NE_RA <- round(t(rbind(1:40, llr[2,]-CH_normalizer)),12)
+  CH_RA <- round(t(rbind(1:40, llr[5,]-CH_normalizer)),12)
+  QLK_RA <- round(t(rbind(1:40, llr[9,]-CH_normalizer)),12)
+  QCH_RA <- round(t(rbind(1:40, llr[11,]-CH_normalizer)),12)
+  colnames(NE_RA) <- c("treatment", "lh_diff")
+  colnames(CH_RA) <- c("treatment", "lh_diff")
+  colnames(QLK_RA) <- c("treatment", "lh_diff")
+  colnames(QCH_RA) <- c("treatment", "lh_diff")
+  write.csv(NE_RA, file="NE_RA.csv", row.names = FALSE, quote = FALSE)
+  write.csv(CH_RA, file="CH_RA.csv", row.names = FALSE, quote = FALSE)
+  write.csv(QLK_RA, file="QLK_RA.csv", row.names = FALSE, quote = FALSE)
+  write.csv(QCH_RA, file="QCH_RA.csv", row.names = FALSE, quote = FALSE)
+}
 
