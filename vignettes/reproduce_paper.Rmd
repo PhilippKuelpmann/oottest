@@ -1,0 +1,20 @@
+---
+title: "Reproduce Külpmann, Kuzmics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{reproduce_paper}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+TODO: move stuff from reproduce_paper.R in here.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(oottest)
+```
