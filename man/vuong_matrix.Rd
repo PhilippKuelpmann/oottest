@@ -7,9 +7,9 @@
 vuong_matrix(data, theories)
 }
 \arguments{
-\item{data}{Data of the experiment (matrix of ints/data.frame): columns are observations of action 1,2,3..., rows are treatments.}
+\item{data}{matrix rows: choices, columns: treatments}
 
-\item{theories}{Model predictions for all theories. (theories is a list?)}
+\item{theories}{list of matrices each in the same format as above}
 }
 \value{
 Table of z-scores for all comparisons
