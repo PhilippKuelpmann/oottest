@@ -39,7 +39,7 @@ reproduce_2_chi_sq_mp <- function() {
   output <- c()
   num_theories <- ncol(all_theories_2)
   for (i in 1:num_theories) {
-    pred_MP <- rbind(all_theories_2[,i]$MPpredictions, 1- all_theories_2[,i]$MPpredictions)
+    pred_MP <- rbind(all_theories_2[, i]$MPpredictions, 1 - all_theories_2[, i]$MPpredictions)
     # pred_HDG <- rbind(all_theories_2[,theory]$HDGpredictions, 1- all_theories_2[,theory]$HDGpredictions)
     output <- rbind(output, get_chi_sq(mp_data, pred_MP))
   }
@@ -53,7 +53,7 @@ reproduce_2_chi_sq_hdg <- function() {
   output <- c()
   num_theories <- ncol(all_theories_2)
   for (i in 1:num_theories) {
-    pred <- rbind(all_theories_2[,i]$HDGpredictions, 1- all_theories_2[,i]$HDGpredictions)
+    pred <- rbind(all_theories_2[, i]$HDGpredictions, 1 - all_theories_2[, i]$HDGpredictions)
     output <- rbind(output, get_chi_sq(hdg_data, pred))
   }
   return(output)
@@ -100,7 +100,7 @@ create_likelihood_tex_tables_2 <- function() {
     output_table <- rbind(output_table, get_log_lh(data_2, prediction = pred_2[[i]]))
   }
   rownames(output_table) <- names(pred_2)
-  colnames(output_table) <- c("T01", "T02", "T03", "T04","T05", "T06","T07", "T08","T09", "T10", "T11", "T12", "T13", "T14","T15", "T16","T17", "T18","T19", "T20")
+  colnames(output_table) <- c("T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12", "T13", "T14", "T15", "T16", "T17", "T18", "T19", "T20")
   return(output_table)
 }
 
@@ -108,7 +108,7 @@ create_likelihood_tex_tables_2 <- function() {
 #'
 #' @noRd
 create_likelihood_tex_tables_3 <- function(game = "AC") {
-  #AC or RSP
+  # AC or RSP
   output_table <- c()
   names <- c()
   if (game == "RSP") {
@@ -125,15 +125,15 @@ create_likelihood_tex_tables_3 <- function(game = "AC") {
   rownames(output_table) <- names
   output_table <- cbind(output_table, rowSums(output_table))
   if (game == "RSP") {
-    output_table_asym <- cbind(output_table[,1:5], rowSums(output_table[,1:5]))
-    output_table_sym <- cbind(output_table[,6:10], rowSums(output_table[,6:10]))
-    colnames(output_table) <- c("T31", "T32", "T33", "T34","T35", "T36","T37", "T38","T39", "T40", "SUM")
-    colnames(output_table_asym) <- c("T31", "T32", "T33", "T34","T35", "SUM")
-    colnames(output_table_sym) <- c("T36","T37", "T38","T39", "T40", "SUM")
+    output_table_asym <- cbind(output_table[, 1:5], rowSums(output_table[, 1:5]))
+    output_table_sym <- cbind(output_table[, 6:10], rowSums(output_table[, 6:10]))
+    colnames(output_table) <- c("T31", "T32", "T33", "T34", "T35", "T36", "T37", "T38", "T39", "T40", "SUM")
+    colnames(output_table_asym) <- c("T31", "T32", "T33", "T34", "T35", "SUM")
+    colnames(output_table_sym) <- c("T36", "T37", "T38", "T39", "T40", "SUM")
     print(xtable(output_table_asym, type = "latex"))
     print(xtable(output_table_sym, type = "latex"))
   } else {
-    colnames(output_table) <- c("T21", "T22", "T23", "T24","T25", "T26","T27", "T28","T29", "T30", "SUM")
+    colnames(output_table) <- c("T21", "T22", "T23", "T24", "T25", "T26", "T27", "T28", "T29", "T30", "SUM")
   }
   return(output_table)
 }
@@ -146,15 +146,15 @@ clean_theory_predictions_2 <- function(add_third = FALSE) {
   predictions <- list()
   theory_names <- c()
   for (theory in 1:14) {
-    hdg_pred <- all_theories_2[,theory]$HDGpredictions
-    mp_pred <- all_theories_2[,theory]$MPpredictions
-    predictions[[theory]] <- rbind(c(hdg_pred, mp_pred), c(1-hdg_pred, 1-mp_pred))
+    hdg_pred <- all_theories_2[, theory]$HDGpredictions
+    mp_pred <- all_theories_2[, theory]$MPpredictions
+    predictions[[theory]] <- rbind(c(hdg_pred, mp_pred), c(1 - hdg_pred, 1 - mp_pred))
     row.names(predictions[[theory]]) <- c("A", "B")
     if (add_third == TRUE) {
       predictions[[theory]] <- rbind(predictions[[theory]], 0)
     }
-    colnames(predictions[[theory]]) <- c("T01", "T02", "T03", "T04","T05", "T06","T07", "T08","T09", "T10", "T11", "T12", "T13", "T14","T15", "T16","T17", "T18","T19", "T20")
-    theory_names <- c(theory_names, all_theories_2[,theory]$short)
+    colnames(predictions[[theory]]) <- c("T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12", "T13", "T14", "T15", "T16", "T17", "T18", "T19", "T20")
+    theory_names <- c(theory_names, all_theories_2[, theory]$short)
   }
   names(predictions) <- theory_names
   return(predictions)
@@ -171,7 +171,7 @@ clean_theory_predictions_3 <- function() {
   theory_names <- c()
   for (theory in 1:num_theories) {
     predictions[[theory]] <- t(rbind(all_theories_3[[theory]]@predictions_HDG, all_theories_3[[theory]]@predictions_RSP))
-    colnames(predictions[[theory]]) <- c("T21", "T22", "T23", "T24","T25", "T26","T27", "T28","T29", "T30", "T31", "T32", "T33", "T34","T35", "T36","T37", "T38","T39", "T40")
+    colnames(predictions[[theory]]) <- c("T21", "T22", "T23", "T24", "T25", "T26", "T27", "T28", "T29", "T30", "T31", "T32", "T33", "T34", "T35", "T36", "T37", "T38", "T39", "T40")
     theory_names <- c(theory_names, all_theories_3[[theory]]@short)
   }
   names(predictions) <- theory_names
@@ -225,7 +225,7 @@ create_vuong_table_all <- function() {
       variance_3 <- get_variance_of_llr(data_3, preds_3[[i]], preds_3[[j]])
       llr_2 <- get_llr(data_2, preds_2[[i]], preds_2[[j]])
       llr_3 <- get_llr(data_3, preds_3[[i]], preds_3[[j]])
-      result[i, j] <- (llr_2 + llr_3)/(variance_2 + variance_3)^(.5)
+      result[i, j] <- (llr_2 + llr_3) / (variance_2 + variance_3)^(.5)
     }
   }
   colnames(result) <- names(preds_3)
@@ -249,10 +249,10 @@ create_vuong_table_all <- function() {
 #'
 #' Need to adjust the variance and llr by hand
 #' @noRd
-create_llr_graph_files <- function(){
-  create_likelihood_tex_tables_3(game="AC")[,-11]
-  create_likelihood_tex_tables_3(game="RSP")[,-11]
-  llr_3 <- cbind(create_likelihood_tex_tables_3(game="AC")[,-11], create_likelihood_tex_tables_3(game="RSP")[,-11])
+create_llr_graph_files <- function() {
+  create_likelihood_tex_tables_3(game = "AC")[, -11]
+  create_likelihood_tex_tables_3(game = "RSP")[, -11]
+  llr_3 <- cbind(create_likelihood_tex_tables_3(game = "AC")[, -11], create_likelihood_tex_tables_3(game = "RSP")[, -11])
   llr_2 <- create_likelihood_tex_tables_2()
   llr <- cbind(llr_2, llr_3)
   # 2: NA-RA
@@ -260,18 +260,17 @@ create_llr_graph_files <- function(){
   # 9: QLK-RA
   # 11: QCH-RA
 
-  CH_normalizer <- llr[5,]
-  NE_RA <- round(t(rbind(1:40, llr[2,]-CH_normalizer)),12)
-  CH_RA <- round(t(rbind(1:40, llr[5,]-CH_normalizer)),12)
-  QLK_RA <- round(t(rbind(1:40, llr[9,]-CH_normalizer)),12)
-  QCH_RA <- round(t(rbind(1:40, llr[11,]-CH_normalizer)),12)
+  CH_normalizer <- llr[5, ]
+  NE_RA <- round(t(rbind(1:40, llr[2, ] - CH_normalizer)), 12)
+  CH_RA <- round(t(rbind(1:40, llr[5, ] - CH_normalizer)), 12)
+  QLK_RA <- round(t(rbind(1:40, llr[9, ] - CH_normalizer)), 12)
+  QCH_RA <- round(t(rbind(1:40, llr[11, ] - CH_normalizer)), 12)
   colnames(NE_RA) <- c("treatment", "lh_diff")
   colnames(CH_RA) <- c("treatment", "lh_diff")
   colnames(QLK_RA) <- c("treatment", "lh_diff")
   colnames(QCH_RA) <- c("treatment", "lh_diff")
-  write.csv(NE_RA, file="NE_RA.csv", row.names = FALSE, quote = FALSE)
-  write.csv(CH_RA, file="CH_RA.csv", row.names = FALSE, quote = FALSE)
-  write.csv(QLK_RA, file="QLK_RA.csv", row.names = FALSE, quote = FALSE)
-  write.csv(QCH_RA, file="QCH_RA.csv", row.names = FALSE, quote = FALSE)
+  write.csv(NE_RA, file = "NE_RA.csv", row.names = FALSE, quote = FALSE)
+  write.csv(CH_RA, file = "CH_RA.csv", row.names = FALSE, quote = FALSE)
+  write.csv(QLK_RA, file = "QLK_RA.csv", row.names = FALSE, quote = FALSE)
+  write.csv(QCH_RA, file = "QCH_RA.csv", row.names = FALSE, quote = FALSE)
 }
-
