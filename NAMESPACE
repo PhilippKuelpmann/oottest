@@ -2,8 +2,4 @@
 
 export(color_vuong_table)
 export(vuong_matrix)
-export(vuong_matrix_2)
-export(vuong_matrix_3)
 export(vuong_statistic)
-export(vuong_statistic_2)
-export(vuong_statistic_3)
