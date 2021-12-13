@@ -31,13 +31,15 @@ vuong_matrix <- function(data, theories) {
   # data: all ints, length(data rows) = length(theory rows), ...
   # theories: sum of each treatment for each theory = 1
   # in both theories and data: same number of actions (p1/p2/p3 or A/B/C) and same number of treatments (T01-T40)
-  num_theories <- length(theories)
+  num_theories <- dim(predictions_two_action_games)[3]
   result <- matrix(, nrow = num_theories, ncol = num_theories)
   for (i in 1:num_theories) {
     for (j in 1:num_theories) {
-      result[i, j] <- vuong_statistic(data, theories[[i]], theories[[j]])
+      result[i, j] <- vuong_statistic(data, theories[,,i], theories[,,j])
     }
   }
+  colnames(result) <- colnames(theories[1,,])
+  rownames(result) <- colnames(theories[1,,])
   # TODO: Name cols and rows if the original theory has names
   return(result)
 }

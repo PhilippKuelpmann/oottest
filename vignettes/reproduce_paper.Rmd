@@ -35,16 +35,106 @@ predictions_three_action_games (TODO: link to man page)
 
 First, we have to create Vuong tables for each subset of the games we analysed.
 
-TODO: let Vuong matrix accept arrays
-
 ```{r}
-# vuong_table_two <- vuong_matrix(data_two_action_games, predictions_two_action_games)
+vuong_table_hdg <- vuong_matrix(data_two_action_games[,1:10], predictions_two_action_games[,1:10,])
+vuong_table_mp1 <- vuong_matrix(data_two_action_games[,11:15], predictions_two_action_games[,11:15,])
+vuong_table_mp1 <- vuong_matrix(data_two_action_games[,16:20], predictions_two_action_games[,16:20,])
+vuong_table_ac <- vuong_matrix(data_three_action_games[,1:10], predictions_three_action_games[,1:10,])
+vuong_table_rsp1 <- vuong_matrix(data_three_action_games[,11:15], predictions_three_action_games[,11:15,])
+vuong_table_rsp2 <- vuong_matrix(data_three_action_games[,16:20], predictions_three_action_games[,16:20,])
 ```
 
 
 ## Recreating tables from the paper
+### Calculating likelihoods
+
+TODO: 
+- create class for vuong table/matrix
+- methods to add:
+  - colored
+  - get LHs
+  - individual tests (not corrected for multiple testing)
+
+```{r}
+  create_likelihood_table(data_two_action_games, predictions_two_action_games)
+
+```
+
+create_likelihood_tables <- function() {
+  output_table <- c()
+  for (i in 1:14) {
+    output_table <- rbind(output_table, get_log_lh(data_two_action_games, prediction = predictions_two_action_games[,,i])
+  }
+  rownames(output_table) <- names(pred_2)
+  colnames(output_table) <- c("T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12", "T13", "T14", "T15", "T16", "T17", "T18", "T19", "T20")
+  return(output_table)
+}
+
+create_likelihood_tex_tables_3 <- function(game = "AC") {
+  # AC or RSP
+  output_table <- c()
+  names <- c()
+  if (game == "RSP") {
+    for (i in 1:14) {
+      output_table <- rbind(output_table, get_log_lh(rsp_data, prediction = t(all_theories_3[[i]]@predictions_RSP)))
+      names <- c(names, all_theories_3[[i]]@short)
+    }
+  } else {
+    for (i in 1:14) {
+      output_table <- rbind(output_table, get_log_lh(ac_data, prediction = t(all_theories_3[[i]]@predictions_HDG)))
+      names <- c(names, all_theories_3[[i]]@short)
+    }
+  }
+  rownames(output_table) <- names
+  output_table <- cbind(output_table, rowSums(output_table))
+  if (game == "RSP") {
+    output_table_asym <- cbind(output_table[, 1:5], rowSums(output_table[, 1:5]))
+    output_table_sym <- cbind(output_table[, 6:10], rowSums(output_table[, 6:10]))
+    colnames(output_table) <- c("T31", "T32", "T33", "T34", "T35", "T36", "T37", "T38", "T39", "T40", "SUM")
+    colnames(output_table_asym) <- c("T31", "T32", "T33", "T34", "T35", "SUM")
+    colnames(output_table_sym) <- c("T36", "T37", "T38", "T39", "T40", "SUM")
+    print(xtable(output_table_asym, type = "latex"))
+    print(xtable(output_table_sym, type = "latex"))
+  } else {
+    colnames(output_table) <- c("T21", "T22", "T23", "T24", "T25", "T26", "T27", "T28", "T29", "T30", "SUM")
+  }
+  return(output_table)
+}
+
+create_likelihood_tex_tables_3 <- function(game = "AC") {
+  # AC or RSP
+  output_table <- c()
+  names <- c()
+  if (game == "RSP") {
+    for (i in 1:14) {
+      output_table <- rbind(output_table, get_log_lh(rsp_data, prediction = t(all_theories_3[[i]]@predictions_RSP)))
+      names <- c(names, all_theories_3[[i]]@short)
+    }
+  } else {
+    for (i in 1:14) {
+      output_table <- rbind(output_table, get_log_lh(ac_data, prediction = t(all_theories_3[[i]]@predictions_HDG)))
+      names <- c(names, all_theories_3[[i]]@short)
+    }
+  }
+  rownames(output_table) <- names
+  output_table <- cbind(output_table, rowSums(output_table))
+  if (game == "RSP") {
+    output_table_asym <- cbind(output_table[, 1:5], rowSums(output_table[, 1:5]))
+    output_table_sym <- cbind(output_table[, 6:10], rowSums(output_table[, 6:10]))
+    colnames(output_table) <- c("T31", "T32", "T33", "T34", "T35", "T36", "T37", "T38", "T39", "T40", "SUM")
+    colnames(output_table_asym) <- c("T31", "T32", "T33", "T34", "T35", "SUM")
+    colnames(output_table_sym) <- c("T36", "T37", "T38", "T39", "T40", "SUM")
+    print(xtable(output_table_asym, type = "latex"))
+    print(xtable(output_table_sym, type = "latex"))
+  } else {
+    colnames(output_table) <- c("T21", "T22", "T23", "T24", "T25", "T26", "T27", "T28", "T29", "T30", "SUM")
+  }
+  return(output_table)
+}
+
 ### Comparison of log-likelihood differences
-fig 1:
+
+
 create_llr_graph_files <- function() {
   create_likelihood_tex_tables_3(game = "AC")[, -11]
   create_likelihood_tex_tables_3(game = "RSP")[, -11]
@@ -156,79 +246,6 @@ create_vuong_table_3_rsp2 <- function() {
 ### Predictions
 
 ### Log-likelihoods
-create_likelihood_tex_tables_2 <- function() {
-  output_table <- c()
-  pred_2 <- clean_theory_predictions_2()
-  data_2 <- cbind(hdg_data, mp_data)
-  for (i in 1:14) {
-    output_table <- rbind(output_table, get_log_lh(data_2, prediction = pred_2[[i]]))
-  }
-  rownames(output_table) <- names(pred_2)
-  colnames(output_table) <- c("T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12", "T13", "T14", "T15", "T16", "T17", "T18", "T19", "T20")
-  return(output_table)
-}
-
-create_likelihood_tex_tables_3 <- function(game = "AC") {
-  # AC or RSP
-  output_table <- c()
-  names <- c()
-  if (game == "RSP") {
-    for (i in 1:14) {
-      output_table <- rbind(output_table, get_log_lh(rsp_data, prediction = t(all_theories_3[[i]]@predictions_RSP)))
-      names <- c(names, all_theories_3[[i]]@short)
-    }
-  } else {
-    for (i in 1:14) {
-      output_table <- rbind(output_table, get_log_lh(ac_data, prediction = t(all_theories_3[[i]]@predictions_HDG)))
-      names <- c(names, all_theories_3[[i]]@short)
-    }
-  }
-  rownames(output_table) <- names
-  output_table <- cbind(output_table, rowSums(output_table))
-  if (game == "RSP") {
-    output_table_asym <- cbind(output_table[, 1:5], rowSums(output_table[, 1:5]))
-    output_table_sym <- cbind(output_table[, 6:10], rowSums(output_table[, 6:10]))
-    colnames(output_table) <- c("T31", "T32", "T33", "T34", "T35", "T36", "T37", "T38", "T39", "T40", "SUM")
-    colnames(output_table_asym) <- c("T31", "T32", "T33", "T34", "T35", "SUM")
-    colnames(output_table_sym) <- c("T36", "T37", "T38", "T39", "T40", "SUM")
-    print(xtable(output_table_asym, type = "latex"))
-    print(xtable(output_table_sym, type = "latex"))
-  } else {
-    colnames(output_table) <- c("T21", "T22", "T23", "T24", "T25", "T26", "T27", "T28", "T29", "T30", "SUM")
-  }
-  return(output_table)
-}
-
-create_likelihood_tex_tables_3 <- function(game = "AC") {
-  # AC or RSP
-  output_table <- c()
-  names <- c()
-  if (game == "RSP") {
-    for (i in 1:14) {
-      output_table <- rbind(output_table, get_log_lh(rsp_data, prediction = t(all_theories_3[[i]]@predictions_RSP)))
-      names <- c(names, all_theories_3[[i]]@short)
-    }
-  } else {
-    for (i in 1:14) {
-      output_table <- rbind(output_table, get_log_lh(ac_data, prediction = t(all_theories_3[[i]]@predictions_HDG)))
-      names <- c(names, all_theories_3[[i]]@short)
-    }
-  }
-  rownames(output_table) <- names
-  output_table <- cbind(output_table, rowSums(output_table))
-  if (game == "RSP") {
-    output_table_asym <- cbind(output_table[, 1:5], rowSums(output_table[, 1:5]))
-    output_table_sym <- cbind(output_table[, 6:10], rowSums(output_table[, 6:10]))
-    colnames(output_table) <- c("T31", "T32", "T33", "T34", "T35", "T36", "T37", "T38", "T39", "T40", "SUM")
-    colnames(output_table_asym) <- c("T31", "T32", "T33", "T34", "T35", "SUM")
-    colnames(output_table_sym) <- c("T36", "T37", "T38", "T39", "T40", "SUM")
-    print(xtable(output_table_asym, type = "latex"))
-    print(xtable(output_table_sym, type = "latex"))
-  } else {
-    colnames(output_table) <- c("T21", "T22", "T23", "T24", "T25", "T26", "T27", "T28", "T29", "T30", "SUM")
-  }
-  return(output_table)
-}
 
 
 ### Vuong Scores
