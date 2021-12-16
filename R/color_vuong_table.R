@@ -9,8 +9,6 @@
 #'
 #' @examples (missing)
 #' @export
-
-
 color_vuong_table <- function(vuong_table) {
   # TODO: replace darkred with {rgb}{0.55, 0.0, 0.0}?
   # TODO: require xtable

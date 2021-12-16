@@ -1,5 +1,10 @@
 #' Chi-Square Tests
+#' @param data matrix rows: choices, columns: treatments
+#' @param prediction list of matrices each in the same format as above
 #'
+#' @return Table of z-scores for all comparisons
+#'
+#' @examples (missing)
 #' @noRd
 get_chi_sq <- function(data, prediction) {
   num_treatments <- ncol(data)
