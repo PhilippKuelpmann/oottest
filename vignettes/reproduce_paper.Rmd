@@ -6,7 +6,9 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-TODO: move stuff from reproduce_paper.R in here.
+
+
+devtools::build_vignettes()
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -16,7 +18,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(oottest)
+library("oottest")
+library("xtable")
 ```
 
 
@@ -31,20 +34,6 @@ predictions_two_action_games (TODO: link to man page)
 predictions_three_action_games (TODO: link to man page)
 
 
-## Creating all Vuong tables
-
-First, we have to create Vuong tables for each subset of the games we analysed.
-
-```{r}
-vuong_table_hdg <- vuong_matrix(data_two_action_games[,1:10], predictions_two_action_games[,1:10,])
-vuong_table_mp1 <- vuong_matrix(data_two_action_games[,11:15], predictions_two_action_games[,11:15,])
-vuong_table_mp1 <- vuong_matrix(data_two_action_games[,16:20], predictions_two_action_games[,16:20,])
-vuong_table_ac <- vuong_matrix(data_three_action_games[,1:10], predictions_three_action_games[,1:10,])
-vuong_table_rsp1 <- vuong_matrix(data_three_action_games[,11:15], predictions_three_action_games[,11:15,])
-vuong_table_rsp2 <- vuong_matrix(data_three_action_games[,16:20], predictions_three_action_games[,16:20,])
-```
-
-
 ## Recreating tables from the paper
 ### Calculating likelihoods
 
@@ -56,285 +45,141 @@ TODO:
   - individual tests (not corrected for multiple testing)
 
 ```{r}
-  create_likelihood_table(data_two_action_games, predictions_two_action_games)
-
+llh_table_2 <- create_likelihood_table(data_two_action_games, predictions_two_action_games)
+llh_table_2 <- create_likelihood_table(data_two_action_games, predictions_two_action_games)
+llh_table_3 <- create_likelihood_table(data_three_action_games, predictions_three_action_games)
+llh_table_all <- cbind(llh_table_2,llh_table_3)
 ```
 
-create_likelihood_tables <- function() {
-  output_table <- c()
-  for (i in 1:14) {
-    output_table <- rbind(output_table, get_log_lh(data_two_action_games, prediction = predictions_two_action_games[,,i])
-  }
-  rownames(output_table) <- names(pred_2)
-  colnames(output_table) <- c("T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12", "T13", "T14", "T15", "T16", "T17", "T18", "T19", "T20")
-  return(output_table)
-}
-
-create_likelihood_tex_tables_3 <- function(game = "AC") {
-  # AC or RSP
-  output_table <- c()
-  names <- c()
-  if (game == "RSP") {
-    for (i in 1:14) {
-      output_table <- rbind(output_table, get_log_lh(rsp_data, prediction = t(all_theories_3[[i]]@predictions_RSP)))
-      names <- c(names, all_theories_3[[i]]@short)
-    }
-  } else {
-    for (i in 1:14) {
-      output_table <- rbind(output_table, get_log_lh(ac_data, prediction = t(all_theories_3[[i]]@predictions_HDG)))
-      names <- c(names, all_theories_3[[i]]@short)
-    }
-  }
-  rownames(output_table) <- names
-  output_table <- cbind(output_table, rowSums(output_table))
-  if (game == "RSP") {
-    output_table_asym <- cbind(output_table[, 1:5], rowSums(output_table[, 1:5]))
-    output_table_sym <- cbind(output_table[, 6:10], rowSums(output_table[, 6:10]))
-    colnames(output_table) <- c("T31", "T32", "T33", "T34", "T35", "T36", "T37", "T38", "T39", "T40", "SUM")
-    colnames(output_table_asym) <- c("T31", "T32", "T33", "T34", "T35", "SUM")
-    colnames(output_table_sym) <- c("T36", "T37", "T38", "T39", "T40", "SUM")
-    print(xtable(output_table_asym, type = "latex"))
-    print(xtable(output_table_sym, type = "latex"))
-  } else {
-    colnames(output_table) <- c("T21", "T22", "T23", "T24", "T25", "T26", "T27", "T28", "T29", "T30", "SUM")
-  }
-  return(output_table)
-}
-
-create_likelihood_tex_tables_3 <- function(game = "AC") {
-  # AC or RSP
-  output_table <- c()
-  names <- c()
-  if (game == "RSP") {
-    for (i in 1:14) {
-      output_table <- rbind(output_table, get_log_lh(rsp_data, prediction = t(all_theories_3[[i]]@predictions_RSP)))
-      names <- c(names, all_theories_3[[i]]@short)
-    }
-  } else {
-    for (i in 1:14) {
-      output_table <- rbind(output_table, get_log_lh(ac_data, prediction = t(all_theories_3[[i]]@predictions_HDG)))
-      names <- c(names, all_theories_3[[i]]@short)
-    }
-  }
-  rownames(output_table) <- names
-  output_table <- cbind(output_table, rowSums(output_table))
-  if (game == "RSP") {
-    output_table_asym <- cbind(output_table[, 1:5], rowSums(output_table[, 1:5]))
-    output_table_sym <- cbind(output_table[, 6:10], rowSums(output_table[, 6:10]))
-    colnames(output_table) <- c("T31", "T32", "T33", "T34", "T35", "T36", "T37", "T38", "T39", "T40", "SUM")
-    colnames(output_table_asym) <- c("T31", "T32", "T33", "T34", "T35", "SUM")
-    colnames(output_table_sym) <- c("T36", "T37", "T38", "T39", "T40", "SUM")
-    print(xtable(output_table_asym, type = "latex"))
-    print(xtable(output_table_sym, type = "latex"))
-  } else {
-    colnames(output_table) <- c("T21", "T22", "T23", "T24", "T25", "T26", "T27", "T28", "T29", "T30", "SUM")
-  }
-  return(output_table)
-}
 
 ### Comparison of log-likelihood differences
+Table 1
 
+Graph is created in latex, using the here created files as input
+theories used are:
+NA-RA,CH-RA (normalized to 1), QLK-RA, QCH-RA
 
-create_llr_graph_files <- function() {
-  create_likelihood_tex_tables_3(game = "AC")[, -11]
-  create_likelihood_tex_tables_3(game = "RSP")[, -11]
-  llr_3 <- cbind(create_likelihood_tex_tables_3(game = "AC")[, -11], create_likelihood_tex_tables_3(game = "RSP")[, -11])
-  llr_2 <- create_likelihood_tex_tables_2()
-  llr <- cbind(llr_2, llr_3)
-  # 2: NA-RA
-  # 5: CH_RA <- normalized to 1
-  # 9: QLK-RA
-  # 11: QCH-RA
+TODO: Set filepath
 
-  CH_normalizer <- llr[5, ]
-  NE_RA <- round(t(rbind(1:40, llr[2, ] - CH_normalizer)), 12)
-  CH_RA <- round(t(rbind(1:40, llr[5, ] - CH_normalizer)), 12)
-  QLK_RA <- round(t(rbind(1:40, llr[9, ] - CH_normalizer)), 12)
-  QCH_RA <- round(t(rbind(1:40, llr[11, ] - CH_normalizer)), 12)
-  colnames(NE_RA) <- c("treatment", "lh_diff")
-  colnames(CH_RA) <- c("treatment", "lh_diff")
-  colnames(QLK_RA) <- c("treatment", "lh_diff")
-  colnames(QCH_RA) <- c("treatment", "lh_diff")
-  write.csv(NE_RA, file = "NE_RA.csv", row.names = FALSE, quote = FALSE)
-  write.csv(CH_RA, file = "CH_RA.csv", row.names = FALSE, quote = FALSE)
-  write.csv(QLK_RA, file = "QLK_RA.csv", row.names = FALSE, quote = FALSE)
-  write.csv(QCH_RA, file = "QCH_RA.csv", row.names = FALSE, quote = FALSE)
+```{r}
+theories <- c("NE-RA", "CH-RA", "QLK-RA", "QCH-RA")
+baseline <- llh_table_all["CH-RA", ]
+output <- c()
+for (theory in theories) {
+  lh_diff <- round(llh_table_all[theory,] - baseline, 12)
+  treatment <- 1:40
+  output <- cbind(treatment, lh_diff)
+  write.csv(output, file= paste0(theory, ".csv"), row.names = FALSE, quote = FALSE)
 }
+```
+
 
 ### Vuong tables
-Table 1: 2-action games
-create_vuong_table_2_hdg <- function() {
-  # merge data
-  data_2 <- hdg_data
-  preds_2 <- clean_theory_predictions_2()
-  for (i in 1:length(preds_2)) {
-    preds_2[[i]] <- preds_2[[i]][, 1:10]
-  }
-  result <- vuong_matrix(data_2, theories = preds_2)
-  colnames(result) <- names(preds_2)
-  row.names(result) <- names(preds_2)
-  return(result)
-}
 
-create_vuong_table_2_mp1 <- function() {
-  # merge data
-  data_2 <- mp_data[, 1:5]
-  preds_2 <- clean_theory_predictions_2()
-  for (i in 1:length(preds_2)) {
-    preds_2[[i]] <- preds_2[[i]][, 11:15]
-  }
-  result <- vuong_matrix(data_2, theories = preds_2)
-  colnames(result) <- names(preds_2)
-  row.names(result) <- names(preds_2)
-  return(result)
-}
-create_vuong_table_2_mp2 <- function() {
-  # merge data
-  data_2 <- mp_data[, 6:10]
-  preds_2 <- clean_theory_predictions_2()
-  for (i in 1:length(preds_2)) {
-    preds_2[[i]] <- preds_2[[i]][, 16:20]
-  }
-  result <- vuong_matrix(data_2, theories = preds_2)
-  colnames(result) <- names(preds_2)
-  row.names(result) <- names(preds_2)
-  return(result)
-}
-
-Table 2: 3-action games
-create_vuong_table_3_ac <- function() {
-  # merge data
-  data_3 <- ac_data
-  preds_3 <- clean_theory_predictions_3()
-  for (i in 1:length(preds_3)) {
-    preds_3[[i]] <- preds_3[[i]][, 1:10]
-  }
-  result <- vuong_matrix(data_3, theories = preds_3)
-  colnames(result) <- names(preds_3)
-  row.names(result) <- names(preds_3)
-  return(result)
-}
-
-create_vuong_table_3_rsp1 <- function() {
-  # merge data
-  data_3 <- rsp_data[, 1:5]
-  preds_3 <- clean_theory_predictions_3()
-  for (i in 1:length(preds_3)) {
-    preds_3[[i]] <- preds_3[[i]][, 11:15]
-  }
-  result <- vuong_matrix(data_3, theories = preds_3)
-  colnames(result) <- names(preds_3)
-  row.names(result) <- names(preds_3)
-  return(result)
-}
-
-create_vuong_table_3_rsp2 <- function() {
-  # merge data
-  data_3 <- rsp_data[, 6:10]
-  preds_3 <- clean_theory_predictions_3()
-  for (i in 1:length(preds_3)) {
-    preds_3[[i]] <- preds_3[[i]][, 16:20]
-  }
-  result <- vuong_matrix(data_3, theories = preds_3)
-  colnames(result) <- names(preds_3)
-  row.names(result) <- names(preds_3)
-  return(result)
-}
-
+```{r, results='hide'}
+vuong_table_hdg <- vuong_matrix(data_two_action_games[,1:10], predictions_two_action_games[,1:10,])
+vuong_table_mp1 <- vuong_matrix(data_two_action_games[,11:15], predictions_two_action_games[,11:15,])
+vuong_table_mp2 <- vuong_matrix(data_two_action_games[,16:20], predictions_two_action_games[,16:20,])
+vuong_table_ac <- vuong_matrix(data_three_action_games[,1:10], predictions_three_action_games[,1:10,])
+vuong_table_rsp1 <- vuong_matrix(data_three_action_games[,11:15], predictions_three_action_games[,11:15,])
+vuong_table_rsp2 <- vuong_matrix(data_three_action_games[,16:20], predictions_three_action_games[,16:20,])
+color_vuong_table(vuong_table_hdg)
+color_vuong_table(vuong_table_mp1)
+color_vuong_table(vuong_table_mp2)
+color_vuong_table(vuong_table_ac)
+color_vuong_table(vuong_table_rsp1)
+color_vuong_table(vuong_table_rsp2)
+```
 
 ## Recreating tables from the Online Appendix
-### Predictions
 
 ### Log-likelihoods
+requires the creation of llh from above
 
+```{r, results='hide'}
+xtable(llh_table_2, type = "latex")
+xtable(llh_table_3, type = "latex")
+```
 
 ### Vuong Scores
 
+TODO: add function for vuong table with different number of actions
 
-create_vuong_table_2 <- function() {
-  # merge data
-  data_2 <- cbind(hdg_data, mp_data)
-  preds_2 <- clean_theory_predictions_2()
-  result <- vuong_matrix(data_2, theories = preds_2)
-  colnames(result) <- names(preds_2)
-  row.names(result) <- names(preds_2)
-  return(result)
-}
+```{r, results='hide'}
+vuong_table_2 <- vuong_matrix(data_two_action_games, predictions_two_action_games)
+vuong_table_3 <- vuong_matrix(data_three_action_games, predictions_three_action_games)
+```
 
-create_vuong_table_3 <- function() {
-  # merge data
-  data_3 <- cbind(ac_data, rsp_data)
-  preds_3 <- clean_theory_predictions_3()
-  result <- vuong_matrix(data_3, theories = preds_3)
-  colnames(result) <- names(preds_3)
-  row.names(result) <- names(preds_3)
-  return(result)
-}
-
-create_vuong_table_all <- function() {
-  # (llr_2 + llr_3)/((variance_2 + variance_3))^(.5)
-  data_2 <- cbind(hdg_data, mp_data)
-  data_3 <- cbind(ac_data, rsp_data)
-  preds_2 <- clean_theory_predictions_2()
-  preds_3 <- clean_theory_predictions_3()
-  names <- c()
-  num_theories <- 14
-  result <- matrix(, nrow = num_theories, ncol = num_theories)
-  for (i in 1:num_theories) {
-    for (j in 1:num_theories) {
-      variance_2 <- get_variance_of_llr(data_2, preds_2[[i]], preds_2[[j]])
-      variance_3 <- get_variance_of_llr(data_3, preds_3[[i]], preds_3[[j]])
-      llr_2 <- get_llr(data_2, preds_2[[i]], preds_2[[j]])
-      llr_3 <- get_llr(data_3, preds_3[[i]], preds_3[[j]])
-      result[i, j] <- (llr_2 + llr_3) / (variance_2 + variance_3)^(.5)
-    }
+```{r}
+# (llr_2 + llr_3)/((variance_2 + variance_3))^(.5)
+num_theories <- dim(predictions_two_action_games)[3]
+result <- matrix(, nrow = num_theories, ncol = num_theories)
+for (i in 1:num_theories) {
+  for (j in 1:num_theories) {
+    llr_2 <- oottest:::get_llr(data_two_action_games, predictions_two_action_games[,,i], predictions_two_action_games[,,j])
+    llr_3 <- oottest:::get_llr(data_three_action_games, predictions_three_action_games[,,i], predictions_three_action_games[,,j])
+    variance_2 <- oottest:::get_variance_of_llr(data_two_action_games, predictions_two_action_games[,,i], predictions_two_action_games[,,j])
+    variance_3 <- oottest:::get_variance_of_llr(data_three_action_games, predictions_three_action_games[,,i], predictions_three_action_games[,,j])
+    result[i, j] <- (llr_2 + llr_3) / (variance_2 + variance_3)^(.5)
   }
-  colnames(result) <- names(preds_3)
-  row.names(result) <- names(preds_3)
-  return(result)
 }
+colnames(result) <- colnames(predictions_two_action_games[1,,])
+rownames(result) <- colnames(predictions_two_action_games[1,,])
+vuong_table_all <- result
+```
+
+```{r, results='hide'}
+  color_vuong_table(vuong_table_2)
+  color_vuong_table(vuong_table_3)
+  color_vuong_table(vuong_table_all)
+```
+
 ### Testing theories individually
-reproduce_2_chi_sq_mp <- function() {
-  output <- c()
-  num_theories <- ncol(all_theories_2)
-  for (i in 1:num_theories) {
-    pred_MP <- rbind(all_theories_2[, i]$MPpredictions, 1 - all_theories_2[, i]$MPpredictions)
-    # pred_HDG <- rbind(all_theories_2[,theory]$HDGpredictions, 1- all_theories_2[,theory]$HDGpredictions)
-    output <- rbind(output, get_chi_sq(mp_data, pred_MP))
-  }
-  return(output)
-}
+TODO: make method of vuong matrix
+TODO: Surpress calculation of chi-sq p-value on treatment level (generates warnings)
 
-reproduce_2_chi_sq_hdg <- function() {
-  output <- c()
-  num_theories <- ncol(all_theories_2)
-  for (i in 1:num_theories) {
-    pred <- rbind(all_theories_2[, i]$HDGpredictions, 1 - all_theories_2[, i]$HDGpredictions)
-    output <- rbind(output, get_chi_sq(hdg_data, pred))
-  }
-  return(output)
-}
+```{r, results='hide', warning=FALSE}
+chi_sq_hdg <- get_all_chi_sq(data_two_action_games[,1:10], predictions_two_action_games[,1:10,])
+chi_sq_mp1 <- get_all_chi_sq(data_two_action_games[,11:15], predictions_two_action_games[,11:15,])
+chi_sq_mp2 <- get_all_chi_sq(data_two_action_games[,16:20], predictions_two_action_games[,16:20,])
+chi_sq_2 <- get_all_chi_sq(data_two_action_games, predictions_two_action_games)
+chi_sq_ac <- get_all_chi_sq(data_three_action_games[,1:10], predictions_three_action_games[,1:10,])
+chi_sq_rsp1 <- get_all_chi_sq(data_three_action_games[,11:15], predictions_three_action_games[,11:15,])
+chi_sq_rsp2 <- get_all_chi_sq(data_three_action_games[,16:20], predictions_three_action_games[,16:20,])
+chi_sq_3 <- get_all_chi_sq(data_three_action_games, predictions_three_action_games)
 
-reproduce_3_chi_sq_hdg <- function() {
-  output <- c()
-  num_theories <- length(all_theories_3)
-  for (i in 1:num_theories) {
-    pred <- t(all_theories_3[[i]]@predictions_HDG)
-    # pred_HDG <- rbind(all_theories_2[,theory]$HDGpredictions, 1- all_theories_2[,theory]$HDGpredictions)
-    output <- rbind(output, get_chi_sq(ac_data, pred))
-  }
-  return(output)
-}
+table_2 <- cbind(chi_sq_hdg, chi_sq_mp1, chi_sq_mp2, chi_sq_2)
+table_3 <- cbind(chi_sq_ac, chi_sq_rsp1, chi_sq_rsp2, chi_sq_3)
+xtable(table_2, type = "latex", digits=c(0,2,8,2,8,2,8,2,8))
+xtable(table_3, type = "latex", digits=c(0,2,8,2,8,2,8,2,8))
+```
 
-reproduce_3_chi_sq_ac <- function() {
-  output <- c()
-  num_theories <- length(all_theories_3)
-  for (i in 1:num_theories) {
-    pred <- t(all_theories_3[[i]]@predictions_RSP)
-    # pred_HDG <- rbind(all_theories_2[,theory]$HDGpredictions, 1- all_theories_2[,theory]$HDGpredictions)
-    output <- rbind(output, get_chi_sq(rsp_data, pred))
-  }
-  return(output)
-}
 
+### Predictions
+```{r, results='hide'}
+pred_2 <- round(predictions_two_action_games, 3)
+th_names <- names(predictions_two_action_games[1,1,])
+output <- c()
+for (theory in th_names) {
+  output <- rbind(output, paste0("(", pred_2[1,,theory], ", ", pred_2[2,,theory], ")"))
+}
+colnames(output) <- names(predictions_two_action_games[1,,1])
+rownames(output) <- th_names
+xtable(output, type = "latex")
+
+pred_3 <- round(predictions_three_action_games, 3)
+output <- c()
+for (theory in th_names) {
+  output <- rbind(output, paste0("(", pred_3[1,,theory], ", ", pred_3[2,,theory], ", ", pred_3[3,,theory],  ")"))
+}
+colnames(output) <- names(predictions_two_action_games[1,,1])
+rownames(output) <- th_names
+xtable(output, type = "latex")
+```
+
+### Data
+```{r, results='hide'}
+xtable(data_two_action_games, type = "latex", digits=0)
+xtable(data_three_action_games, type = "latex", digits=0)
+```
 
