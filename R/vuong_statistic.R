@@ -9,6 +9,9 @@
 #' @examples (missing)
 #' @export
 vuong_statistic <- function(data, pred_I, pred_J) {
+  if( typeof(data) != "integer") stop("Data should be type integer")
+  if( colSums(pred_I) < 0 |colSums(pred_I) > 1)  stop('Prediction sum not between 0 and 1')
+  if( colSums(pred_J) < 0 |colSums(pred_J) > 1)  stop('Prediction sum not between 0 and 1')
   # data: all ints
   # if colSum of predictions is 1 and each is between 0,1
   # check if rows and columns are of the same length

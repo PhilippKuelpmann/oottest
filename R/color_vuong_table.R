@@ -1,5 +1,5 @@
 #' Color a Vuong matrix in red/green
-#' requires the xcolor package and \definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
+#' requires the xcolor package and /definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
 #' Red/green, but still kind of readable in black/white
 #'
 #' @param vuong_table a Voung table like the output of vuong_matrix

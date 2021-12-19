@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of oottest is to …
+The goal of oottest is to
 
 ## Installation
 
@@ -31,4 +31,4 @@ library(oottest)
 
 ## Citation
 
-Here’s how to cite my package
+Here’s how to cite my package:

@@ -3,7 +3,7 @@
 \name{color_vuong_table}
 \alias{color_vuong_table}
 \title{Color a Vuong matrix in red/green
-requires the xcolor package and \definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
+requires the xcolor package and /definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
 Red/green, but still kind of readable in black/white}
 \usage{
 color_vuong_table(vuong_table)
@@ -16,7 +16,7 @@ Latex code of a colored vuong table
 }
 \description{
 Color a Vuong matrix in red/green
-requires the xcolor package and \definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
+requires the xcolor package and /definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
 Red/green, but still kind of readable in black/white
 }
 \examples{
