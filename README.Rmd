@@ -29,16 +29,24 @@ You can install the development version of oottest from [GitHub](https://github.
 devtools::install_github("PhilippKuelpmann/oottest")
 ```
 
-## Additional set up requirements
-
 ## Example
 
 This is a basic example on how you can use the package:
 
+(Simple test for 2 theories)
+
 ```{r example}
 library(oottest)
-## basic example code
+data_experiment <- c(1,2,3)
+prediction_theory_1 <- c(1/3,1/3,1/3)
+prediction_theory_2 <- c(1/4,1/4,1/2)
+vuong_statistic(data_experiment, pred_I = prediction_theory_1, pred_J = prediction_theory_2)
 ```
+
+Multiple theories, creating a Vuong matrix:
+
+TODO: add example
+
 
 ## Citation
 

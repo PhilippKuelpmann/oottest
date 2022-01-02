@@ -1,0 +1,16 @@
+citHeader("To cite oottest in publications use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "oottest",
+  author   = "Philipp Külpmann",
+  journal  = "",
+  year     = "2022",
+  volume   = "",
+  number   = "",
+  pages    = "",
+  url      = "",
+  textVersion = paste(
+
+  )
+)
