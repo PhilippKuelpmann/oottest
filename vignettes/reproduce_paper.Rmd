@@ -1,88 +1,82 @@
 ---
 title: "Reproduce Külpmann, Kuzmics"
 output: rmarkdown::html_vignette
+bibliography: references.bib
 vignette: >
   %\VignetteIndexEntry{reproduce_paper}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-
-devtools::build_vignettes()
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+  collapse = TRUE
 )
 ```
 
-```{r setup}
+This vignette shows how to reproduce every table, graph and test from @kulpmann2020comparing.
+
+# Set up
+The data as well as predictions for each theory mentioned in @kulpmann2020comparing are included as additional data to the package "oottest". Thus, you only need to install the package oottest. Furthermore, we use the package xtables to convert the R tables to latex tables which we use in the paper. 
+
+```{r setup, warning=FALSE}
 library("oottest")
 library("xtable")
 ```
 
+## Accessing the data and predictions
 
-## Loading data and predictions
-
-The data as well as the predictions from Külpmann Kuzmics (2020) are part of this package.
-
-Access them as:
-data_two_action_games (TODO: link to man page)
-data_three_action_games (TODO: link to man page)
-predictions_two_action_games (TODO: link to man page)
-predictions_three_action_games (TODO: link to man page)
+Data and predictions can be accessed directly after installing the oottest package. Access them as:
 
 
-## Recreating tables from the paper
-### Calculating likelihoods
+* data_two_action_games
+* data_three_action_games
+* predictions_two_action_games
+* predictions_three_action_games
 
-TODO: 
-- create class for vuong table/matrix
-- methods to add:
-  - colored
-  - get LHs
-  - individual tests (not corrected for multiple testing)
 
-```{r}
-llh_table_2 <- create_likelihood_table(data_two_action_games, predictions_two_action_games)
-llh_table_2 <- create_likelihood_table(data_two_action_games, predictions_two_action_games)
-llh_table_3 <- create_likelihood_table(data_three_action_games, predictions_three_action_games)
-llh_table_all <- cbind(llh_table_2,llh_table_3)
+Please see the documentation for each dataset to learn about formatting, usage and the source.
+To access the documentation for e.g., the data from the two action games, type:
+
+```{r, eval = FALSE}
+?data_two_action_games
 ```
 
 
-### Comparison of log-likelihood differences
-Table 1
+# Tables and figures from the main paper
+## Vuong tables (table 1 and 2)
+Table 1 and 2 consist of 6 Vuong matrices, one for each of the different types of games:
 
-Graph is created in latex, using the here created files as input
-theories used are:
-NA-RA,CH-RA (normalized to 1), QLK-RA, QCH-RA
-
-TODO: Set filepath
-
+* Two-action games
+    * Hawk-dove games
+    * Matching pennies: asymmetric own-payoffs
+    * Matching pennies: symmetric own-payoffs
+* Three-action games
+    * Hawk-middle-dove games
+    * Rock-Scissors-Paper: asymmetric own-payoffs
+    * Rock-Scissors-Paper: symmetric own-payoffs
+    
+The following commands creates a Vuong matrix for each of them and saves them as vuong_table_GAME_NAME. (The ranges below are to select the treatments.)
 ```{r}
-theories <- c("NE-RA", "CH-RA", "QLK-RA", "QCH-RA")
-baseline <- llh_table_all["CH-RA", ]
-output <- c()
-for (theory in theories) {
-  lh_diff <- round(llh_table_all[theory,] - baseline, 12)
-  treatment <- 1:40
-  output <- cbind(treatment, lh_diff)
-  write.csv(output, file= paste0(theory, ".csv"), row.names = FALSE, quote = FALSE)
-}
-```
-
-
-### Vuong tables
-
-```{r, results='hide'}
 vuong_table_hdg <- vuong_matrix(data_two_action_games[,1:10], predictions_two_action_games[,1:10,])
 vuong_table_mp1 <- vuong_matrix(data_two_action_games[,11:15], predictions_two_action_games[,11:15,])
 vuong_table_mp2 <- vuong_matrix(data_two_action_games[,16:20], predictions_two_action_games[,16:20,])
 vuong_table_ac <- vuong_matrix(data_three_action_games[,1:10], predictions_three_action_games[,1:10,])
 vuong_table_rsp1 <- vuong_matrix(data_three_action_games[,11:15], predictions_three_action_games[,11:15,])
 vuong_table_rsp2 <- vuong_matrix(data_three_action_games[,16:20], predictions_three_action_games[,16:20,])
+```
+
+Now, we have six Vuong matrix, each looking similar to this:
+```{r, echo = FALSE, results = 'asis'}
+knitr::kable(round(vuong_table_hdg,2), caption="Hawk-Dove Games")
+```
+
+
+In the paper, we colored the matrices to allow for an easier overview.
+To create the latex used in the paper, one only has to run the function "color_vuong_table" on each table.
+It outputs latex code which can directly me used as a table in the document.
+
+```{r, echo = FALSE, results = 'hide'}
 color_vuong_table(vuong_table_hdg)
 color_vuong_table(vuong_table_mp1)
 color_vuong_table(vuong_table_mp2)
@@ -91,27 +85,13 @@ color_vuong_table(vuong_table_rsp1)
 color_vuong_table(vuong_table_rsp2)
 ```
 
-## Recreating tables from the Online Appendix
 
-### Log-likelihoods
-requires the creation of llh from above
+## Vuong matrix: all games (table 3)
+To create the Vuong matrix using the two and three-action games together, we can not use the vuong_matrix command directly, the structure of two- and three-action games are different.
 
-```{r, results='hide'}
-xtable(llh_table_2, type = "latex")
-xtable(llh_table_3, type = "latex")
-```
-
-### Vuong Scores
-
-TODO: add function for vuong table with different number of actions
+This is done here. The (hide) output is latex code of a colored Vuong matrix as above.
 
 ```{r, results='hide'}
-vuong_table_2 <- vuong_matrix(data_two_action_games, predictions_two_action_games)
-vuong_table_3 <- vuong_matrix(data_three_action_games, predictions_three_action_games)
-```
-
-```{r}
-# (llr_2 + llr_3)/((variance_2 + variance_3))^(.5)
 num_theories <- dim(predictions_two_action_games)[3]
 result <- matrix(, nrow = num_theories, ncol = num_theories)
 for (i in 1:num_theories) {
@@ -125,20 +105,65 @@ for (i in 1:num_theories) {
 }
 colnames(result) <- colnames(predictions_two_action_games[1,,])
 rownames(result) <- colnames(predictions_two_action_games[1,,])
-vuong_table_all <- result
+color_vuong_table(result)
 ```
+
+
+### Calculating likelihoods
+The third and final graph in the paper is a comparison of log-likelihood differences for four different theories.
+
+The graph itself is created in latex using Tikz (TODO: Cite) which uses the data from R as inputs.
+
+The data was created as follows:
+
+Creating likelihood tables.
+```{r}
+llh_table_2 <- create_likelihood_table(data_two_action_games, predictions_two_action_games)
+llh_table_3 <- create_likelihood_table(data_three_action_games, predictions_three_action_games)
+llh_table_all <- cbind(llh_table_2,llh_table_3)
+```
+
+Output:
+```{r, echo = FALSE, results = 'asis'}
+knitr::kable(round(llh_table_2,2), caption="Loglikelihoods: two action games")
+knitr::kable(round(llh_table_3,2), caption="Loglikelihoods: three action games")
+```
+
+
+Creating a csv file with the log-likelihood difference to the baseline (CH-RA) for each of the four theories:
+NA-RA,CH-RA (normalized to 1), QLK-RA, QCH-RA
+```{r}
+theories <- c("NE-RA", "CH-RA", "QLK-RA", "QCH-RA")
+baseline <- llh_table_all["CH-RA", ]
+output <- c()
+for (theory in theories) {
+  lh_diff <- round(llh_table_all[theory,] - baseline, 12)
+  treatment <- 1:40
+  output <- cbind(treatment, lh_diff)
+  write.csv(output, file= paste0(theory, ".csv"), row.names = FALSE, quote = FALSE)
+}
+```
+
+
+
+## Recreating tables from the Online Appendix
 
 ```{r, results='hide'}
-  color_vuong_table(vuong_table_2)
-  color_vuong_table(vuong_table_3)
-  color_vuong_table(vuong_table_all)
+vuong_table_2 <- vuong_matrix(data_two_action_games, predictions_two_action_games)
+vuong_table_3 <- vuong_matrix(data_three_action_games, predictions_three_action_games)
 ```
 
-### Testing theories individually
-TODO: make method of vuong matrix
-TODO: Surpress calculation of chi-sq p-value on treatment level (generates warnings)
+### Log-likelihoods
+requires the creation of llh from above
 
-```{r, results='hide', warning=FALSE}
+```{r, results='hide'}
+xtable(llh_table_2, type = "latex")
+xtable(llh_table_3, type = "latex")
+```
+
+
+### Testing theories individually
+```{r, warnings=FALSE, message = FALSE, results='hide'}
 chi_sq_hdg <- get_all_chi_sq(data_two_action_games[,1:10], predictions_two_action_games[,1:10,])
 chi_sq_mp1 <- get_all_chi_sq(data_two_action_games[,11:15], predictions_two_action_games[,11:15,])
 chi_sq_mp2 <- get_all_chi_sq(data_two_action_games[,16:20], predictions_two_action_games[,16:20,])
@@ -147,16 +172,24 @@ chi_sq_ac <- get_all_chi_sq(data_three_action_games[,1:10], predictions_three_ac
 chi_sq_rsp1 <- get_all_chi_sq(data_three_action_games[,11:15], predictions_three_action_games[,11:15,])
 chi_sq_rsp2 <- get_all_chi_sq(data_three_action_games[,16:20], predictions_three_action_games[,16:20,])
 chi_sq_3 <- get_all_chi_sq(data_three_action_games, predictions_three_action_games)
+```
 
+Example for the hawk-dove games:
+```{r, echo = FALSE, results = 'asis'}
+knitr::kable(chi_sq_hdg, caption="Chi-squared test for the hawk-dove games")
+```
+
+Now, to create the latex tables as seen in the paper:
+```{r}
 table_2 <- cbind(chi_sq_hdg, chi_sq_mp1, chi_sq_mp2, chi_sq_2)
 table_3 <- cbind(chi_sq_ac, chi_sq_rsp1, chi_sq_rsp2, chi_sq_3)
 xtable(table_2, type = "latex", digits=c(0,2,8,2,8,2,8,2,8))
 xtable(table_3, type = "latex", digits=c(0,2,8,2,8,2,8,2,8))
 ```
 
-
+## Data and theory predictions
 ### Predictions
-```{r, results='hide'}
+```{r}
 pred_2 <- round(predictions_two_action_games, 3)
 th_names <- names(predictions_two_action_games[1,1,])
 output <- c()
@@ -178,8 +211,10 @@ xtable(output, type = "latex")
 ```
 
 ### Data
-```{r, results='hide'}
+```{r}
 xtable(data_two_action_games, type = "latex", digits=0)
 xtable(data_three_action_games, type = "latex", digits=0)
 ```
 
+
+# References
