@@ -27,7 +27,7 @@ get_all_chi_sq <- function(data, predictions) {
   for (i in 1:num_theories) {
     output <- rbind(output, get_chi_sq(data, predictions[, , i]))
   }
-  rownames(output) <- colnames(predictions_two_action_games[1, , ])
+  rownames(output) <- colnames(predictions[1, , ])
   output[, "chi-sq"] <- round(output[, "chi-sq"], 2)
   output[, "p-value"] <- round(output[, "p-value"], 12)
   return(output)
