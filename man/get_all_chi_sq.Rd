@@ -6,6 +6,14 @@
 \usage{
 get_all_chi_sq(data, predictions)
 }
+\arguments{
+\item{data}{Data of the experiment (matrix of ints/data.frame): columns are observations of action 1,2,3..., rows are treatments.}
+
+\item{predictions}{Model prediction for one theory: rows/cols as data}
+}
+\value{
+Output of all chi square tests
+}
 \description{
 Chi-Square Tests for multiple theories
 }

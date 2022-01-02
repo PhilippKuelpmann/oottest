@@ -16,6 +16,10 @@ get_chi_sq <- function(data, prediction) {
 
 #' Chi-Square Tests for multiple theories
 #'
+#' @param data Data of the experiment (matrix of ints/data.frame): columns are observations of action 1,2,3..., rows are treatments.
+#' @param predictions Model prediction for one theory: rows/cols as data
+#'
+#' @return Output of all chi square tests
 #' @export
 get_all_chi_sq <- function(data, predictions) {
   output <- c()

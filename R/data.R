@@ -38,6 +38,7 @@
 #' @source \url{http://madeitup.myself/}
 "predictions_two_action_games"
 
+
 #' Predictions for the three-action games
 #'
 #' Blabla!

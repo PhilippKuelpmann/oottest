@@ -24,5 +24,5 @@ expect_equal(vuong_statistic(simple_data, th_1, th_2), vuong_by_hand)
 expect_gte(abs(vuong_statistic(simple_data * 3, th_1, th_2)), abs(vuong_statistic(simple_data, th_1, th_2)))
 
 # Test that input int
-expect_
+# expect_
 
