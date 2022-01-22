@@ -25,4 +25,3 @@ expect_gte(abs(vuong_statistic(simple_data * 3, th_1, th_2)), abs(vuong_statisti
 
 # Test that input int
 # expect_
-
