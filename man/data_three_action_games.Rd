@@ -11,27 +11,14 @@ Need to reformat anyway ...
   \item{columns}{treatments}
   ...
 }
-
-Need to reformat anyway ...
-\describe{
-  \item{rows}{actions}
-  \item{columns}{treatments}
-  ...
-}
 }
 \source{
-\url{http://madeitup.myself/}
-
 \url{http://madeitup.myself/}
 }
 \usage{
 data_three_action_games
-
-data_three_action_games
 }
 \description{
-Blabla!
-
 Blabla!
 }
 \keyword{datasets}

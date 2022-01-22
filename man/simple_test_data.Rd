@@ -20,5 +20,6 @@ simple_test_data
 }
 \description{
 Mostly to test data im/exporting
+Don't make accessible to users?
 }
 \keyword{datasets}
