@@ -10,7 +10,7 @@ The goal of oottest is to
 
 ## Installation
 
-You can install the development version of oottest from
+You can install the development version of oottest from hello
 [GitHub](https://github.com/) with:
 
 ``` r
