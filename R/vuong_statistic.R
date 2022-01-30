@@ -34,6 +34,9 @@ vuong_statistic <- function(data, pred_I, pred_J) {
 #' @examples (missing)
 #' @export
 vuong_matrix <- function(data, theories) {
+  for (i in data) {
+    if (i %% 1 != 0) stop("Data not integers")
+  }
   # data: all ints, length(data rows) = length(theory rows), ...
   # theories: sum of each treatment for each theory = 1
   # in both theories and data: same number of actions (p1/p2/p3 or A/B/C) and same number of treatments (T01-T40)
