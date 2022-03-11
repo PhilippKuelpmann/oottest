@@ -9,15 +9,23 @@
 #' @examples (missing)
 #' @export
 vuong_statistic <- function(data, pred_I, pred_J) {
-  # if( typeof(data) != "integer") stop("Data should be type integer")
-  ifelse( (rowSums(pred_I) < 0 | (rowSums(pred_I) >1 )), print('Prediction sum not between 0 and 1'), pred_I)
-  ifelse( (rowSums(pred_J) < 0 | (rowSums(pred_J) > 1)), print('Prediction sum not between 0 and 1'), pred_J)
+  # number of treatments and of actions are the same in data, pred_I and pred_J
+  stopifnot(
+    all.equal(dim(data), dim(pred_I), check.names=FALSE, check.attributes = FALSE),
+    all.equal(dim(data), dim(pred_J), check.names=FALSE, check.attributes = FALSE)
+  )
+
+  # the sum of all predictions for each treatment sum up to one
+  for (treatment in 1:ncol(pred_I)) {
+    stopifnot(
+      all.equal(colSums(pred_I)[treatment], 1, check.names=FALSE, check.attributes = FALSE),
+      all.equal(colSums(pred_J)[treatment], 1, check.names=FALSE, check.attributes = FALSE)
+    )
+  }
+
   for (i in data) {
     if (i %% 1 != 0) stop("Data not integers")
   }
-  # data: all ints
-  # if colSum of predictions is 1 and each is between 0,1
-  # check if rows and columns are of the same length
 
   result <- get_llr(data, pred_I, pred_J) / get_variance_of_llr(data, pred_I, pred_J)^(.5)
   return(result)
