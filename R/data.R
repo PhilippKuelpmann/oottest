@@ -8,7 +8,7 @@
 #'   \item{columns}{treatments}
 #'   ...
 #' }
-#' @source \url{http://madeitup.myself/}
+#' @source \url{http://hdg.kuelpmann.org/}
 "data_two_action_games"
 
 #' Data from the three-action games
@@ -21,7 +21,7 @@
 #'   \item{columns}{treatments}
 #'   ...
 #' }
-#' @source \url{http://madeitup.myself/}
+#' @source \url{http://hdg.kuelpmann.org/}
 "data_three_action_games"
 
 
@@ -35,7 +35,7 @@
 #'   \item{columns}{treatments}
 #'   ...
 #' }
-#' @source \url{http://madeitup.myself/}
+#' @source \url{http://hdg.kuelpmann.org/}
 "predictions_two_action_games"
 
 
@@ -49,7 +49,7 @@
 #'   \item{columns}{treatments}
 #'   ...
 #' }
-#' @source \url{http://madeitup.myself/}
+#' @source \url{http://hdg.kuelpmann.org/}
 "predictions_three_action_games"
 
 
@@ -64,5 +64,4 @@
 #'   \item{columns}{treatments}
 #'   ...
 #' }
-#' @source \url{http://madeitup.myself/}
 "simple_test_data"

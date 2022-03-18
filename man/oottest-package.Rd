@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Philipp Kuelpmann \email{philipp@kuelpmann.org} (\href{https://orcid.org/0000-0003-3757-7172}{ORCID})
+\strong{Maintainer}: Philipp Külpmann \email{philipp@kuelpmann.org} (\href{https://orcid.org/0000-0003-3757-7172}{ORCID})
 
 Authors:
 \itemize{

@@ -12,9 +12,6 @@ A matrix with 3 rows and 2 columns
   ...
 }
 }
-\source{
-\url{http://madeitup.myself/}
-}
 \usage{
 simple_test_data
 }

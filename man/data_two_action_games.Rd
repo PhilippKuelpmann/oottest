@@ -13,7 +13,7 @@ Need to reformat anyway ...
 }
 }
 \source{
-\url{http://madeitup.myself/}
+\url{http://hdg.kuelpmann.org/}
 }
 \usage{
 data_two_action_games
