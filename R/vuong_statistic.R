@@ -11,15 +11,15 @@
 vuong_statistic <- function(data, pred_I, pred_J) {
   # number of treatments and of actions are the same in data, pred_I and pred_J
   stopifnot(
-    all.equal(dim(data), dim(pred_I), check.names=FALSE, check.attributes = FALSE),
-    all.equal(dim(data), dim(pred_J), check.names=FALSE, check.attributes = FALSE)
+    all.equal(dim(data), dim(pred_I), check.names = FALSE, check.attributes = FALSE),
+    all.equal(dim(data), dim(pred_J), check.names = FALSE, check.attributes = FALSE)
   )
 
   # the sum of all predictions for each treatment sum up to one
   for (treatment in 1:ncol(pred_I)) {
     stopifnot(
-      all.equal(colSums(pred_I)[treatment], 1, check.names=FALSE, check.attributes = FALSE),
-      all.equal(colSums(pred_J)[treatment], 1, check.names=FALSE, check.attributes = FALSE)
+      all.equal(colSums(pred_I)[treatment], 1, check.names = FALSE, check.attributes = FALSE),
+      all.equal(colSums(pred_J)[treatment], 1, check.names = FALSE, check.attributes = FALSE)
     )
   }
 

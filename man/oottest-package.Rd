@@ -6,7 +6,7 @@
 \alias{oottest-package}
 \title{oottest: Out-of-Treatment Testing}
 \description{
-Implements the out-of-treatment testing from Kuelpmann and Kuzmics (2020). TODO: need to add more things here.
+Implements the out-of-treatment testing from Kuelpmann and Kuzmics (2020). Out-of treatment testing allows for a direct, pairwise likelihood comparison of theories, calibrated with pre-existing data.
 }
 \seealso{
 Useful links:
@@ -22,6 +22,11 @@ Useful links:
 Authors:
 \itemize{
   \item Panagiota Charalampidou
+}
+
+Other contributors:
+\itemize{
+  \item University of Vienna [copyright holder]
 }
 
 }

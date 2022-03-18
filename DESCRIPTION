@@ -4,7 +4,7 @@ Title: Out-of-Treatment Testing
 Version: 0.0.0.9000
 Authors@R: c(
   person("Philipp", "Kuelpmann", email = "philipp@kuelpmann.org", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3757-7172")),
-  person("Panagiota", "Charalampidou", role = c("aut"))),
+  person("Panagiota", "Charalampidou", role = c("aut")),
   person(given = "University of Vienna", role = c("cph")))
 Maintainer: Philipp Külpmann <philipp@kuelpmann.org>
 Description: Implements the out-of-treatment testing from Kuelpmann and Kuzmics (2020). Out-of treatment testing allows for a direct, pairwise likelihood comparison of theories, calibrated with pre-existing data.
