@@ -7,7 +7,7 @@ Authors@R: c(
   person("Panagiota", "Charalampidou", role = c("aut"))),
   person(given = "University of Vienna", role = c("cph")))
 Maintainer: Philipp Külpmann <philipp@kuelpmann.org>
-Description: Implements the out-of-treatment testing from Kuelpmann and Kuzmics (2020). TODO: need to add more things here.
+Description: Implements the out-of-treatment testing from Kuelpmann and Kuzmics (2020). Out-of treatment testing allows for a direct, pairwise likelihood comparison of theories, calibrated with pre-existing data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
