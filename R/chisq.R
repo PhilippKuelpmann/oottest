@@ -4,7 +4,6 @@
 #'
 #' @return Table of z-scores for all comparisons
 #'
-#' @examples (missing)
 #' @noRd
 get_chi_sq <- function(data, prediction) {
   num_treatments <- ncol(data)
@@ -25,7 +24,8 @@ get_chi_sq <- function(data, prediction) {
 #' @param predictions Model prediction for one theory: rows/cols as data
 #'
 #' @return Output of all chi square tests
-#' @export
+#'
+#' @noRd
 get_all_chi_sq <- function(data, predictions) {
   output <- c()
   num_theories <- dim(predictions)[3]
