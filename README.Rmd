@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# oottest
+# Out-of-treatment testing (oottest)
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -35,7 +35,7 @@ This is a basic example on how you can use the package:
 
 (Simple test for 2 theories)
 
-```{r example, eval=F, echo=T}
+```{r example_vuong_score, eval=F, echo=T}
 library(oottest)
 data_experiment <- c(1,2,3)
 prediction_theory_1 <- c(1/3,1/3,1/3)
@@ -45,7 +45,7 @@ vuong_statistic(data_experiment, pred_I = prediction_theory_1, pred_J = predicti
 
 This is a basic example how to compare three theories:
 
-```{r example, eval=F, echo=T}
+```{r example_vuong_matrix, eval=F, echo=T}
 library(oottest)
 treatment_1 <- c(1,2,3)
 treatment_2 <- c(3,2,1)
@@ -59,8 +59,5 @@ vuong_matrix(data_experiment, theories)
 
 
 
-## Citation
-
-Here's how to cite my package:
 
 

@@ -1,12 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# oottest
+# Out-of-treatment testing (oottest)
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of oottest is to
+oottest implements the out-of-treatment testing from Kuelpmann and
+Kuzmics (2020). Out-of treatment testing allows for a direct, pairwise
+likelihood comparison of theories, calibrated with pre-existing data.
 
 ## Installation
 
@@ -32,10 +34,16 @@ prediction_theory_2 <- c(1/4,1/4,1/2)
 vuong_statistic(data_experiment, pred_I = prediction_theory_1, pred_J = prediction_theory_2)
 ```
 
-Multiple theories, creating a Vuong matrix:
+This is a basic example how to compare three theories:
 
-TODO: add example
-
-## Citation
-
-Here’s how to cite my package:
+``` r
+library(oottest)
+treatment_1 <- c(1,2,3)
+treatment_2 <- c(3,2,1)
+data_experiment <- data.frame(treatment_1, treatment_2)
+theory_1 <- matrix(c(1/3,1/3,1/3, 1/3, 1/3, 1/3), nrow = 3, ncol=2)
+theory_2 <- matrix(c(1/4,1/4,1/2,1/2,1/4,1/4), nrow = 3, ncol=2)
+theory_3 <- matrix(c(1/3,1/3,1/3, 1/4,1/4,1/2), nrow = 3, ncol=2)
+theories <- array(c(theory_1,theory_2,theory_3), dim=c(3,2,3))
+vuong_matrix(data_experiment, theories)
+```

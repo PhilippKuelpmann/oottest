@@ -2,15 +2,15 @@ citHeader("To cite oottest in publications use:")
 
 citEntry(
   entry    = "Manual",
-  title    = "oottest",
-  author   = "Philipp Külpmann",
+  title    = "oottest: Out-of-Treatment Testing in R",
+  author   = as.person("Philipp Külpmann"),
   journal  = "",
   year     = "2022",
   volume   = "",
   number   = "",
   pages    = "",
-  url      = "",
+  url      = "https://github.com/PhilippKuelpmann/oottest",
   textVersion = paste(
-
+    "Külpmann, Philipp and Panagiota Charalampidou (2022). oottest: Out-of-Treatment Testing in R. https://github.com/PhilippKuelpmann/oottest"
   )
 )
