@@ -1,9 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Out-of-treatment testing (oottest)
+# oottest: Out-of-Treatment Testing in R
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/PhilippKuelpmann/oottest/workflows/R-CMD-check/badge.svg)](https://github.com/PhilippKuelpmann/oottest/actions)
 <!-- badges: end -->
 
 oottest implements the out-of-treatment testing from Kuelpmann and
@@ -22,9 +24,8 @@ devtools::install_github("PhilippKuelpmann/oottest")
 
 ## Example
 
-This is a basic example on how you can use the package:
-
-(Simple test for 2 theories)
+Here is a basic example on how you can use the vuong_statistic using
+predictions from two theories:
 
 ``` r
 library(oottest)
@@ -34,7 +35,8 @@ prediction_theory_2 <- c(1/4,1/4,1/2)
 vuong_statistic(data_experiment, pred_I = prediction_theory_1, pred_J = prediction_theory_2)
 ```
 
-This is a basic example how to compare three theories:
+Here is a basic example how to compare three theories, using data from
+two treatments:
 
 ``` r
 library(oottest)
