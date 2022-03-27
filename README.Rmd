@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/PhilippKuelpmann/oottest/workflows/R-CMD-check/badge.svg)](https://github.com/PhilippKuelpmann/oottest/actions)
+[![Codecov test coverage](https://codecov.io/gh/PhilippKuelpmann/oottest/branch/master/graph/badge.svg)](https://app.codecov.io/gh/PhilippKuelpmann/oottest?branch=master)
 <!-- badges: end -->
 
 oottest implements the out-of-treatment testing from Kuelpmann and Kuzmics (2020). Out-of treatment testing allows for a direct, pairwise likelihood comparison of theories, calibrated with pre-existing data.
