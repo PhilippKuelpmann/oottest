@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/PhilippKuelpmann/oottest/workflows/R-CMD-check/badge.svg)](https://github.com/PhilippKuelpmann/oottest/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/PhilippKuelpmann/oottest/branch/master/graph/badge.svg)](https://app.codecov.io/gh/PhilippKuelpmann/oottest?branch=master)
 <!-- badges: end -->
 
 oottest implements the out-of-treatment testing from Kuelpmann and
