@@ -1,17 +1,17 @@
-#' Chi-Square Tests
+#' Chi-Square test for a single theory
 #' @param data matrix rows: choices, columns: treatments
 #' @param prediction list of matrices each in the same format as above
 #'
-#' @return Table of z-scores for all comparisons
+#' @return Chi-square test for a single theory
 #'
 #' @noRd
 get_chi_sq <- function(data, prediction) {
   num_treatments <- ncol(data)
   chi_sq <- 0
   for (i in 1:num_treatments) {
-    chi_sq <- chi_sq + stats::chisq.test(data[, i], p = prediction[, i])$statistic # can we suppress the calculation of p values here?
+    chi_sq <- chi_sq + stats::chisq.test(data[, i], p = prediction[, i])$statistic
   }
-  p_value <- stats::pchisq(chi_sq, df = num_treatments, lower.tail = FALSE) # DF: num of treatments, not -1
+  p_value <- stats::pchisq(chi_sq, df = num_treatments, lower.tail = FALSE)
   output <- c(chi_sq, p_value)
   names(output) <- c("chi-sq", "p-value")
   return(output)

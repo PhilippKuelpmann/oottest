@@ -1,25 +1,25 @@
 #' Implementation of the Vuong test for our setting
 #'
 #' @param data Data of the experiment (matrix of ints/data.frame): columns are observations of action 1,2,3..., rows are treatments. matrix rows: choices, columns: treatments
-#' @param pred_I Model prediction for a theory (matrix of doubles/data.frame): rows are prediction of playing action 1,2,3..., columns are treatments
-#' @param pred_J Model prediction for a theory (matrix of doubles/data.frame): rows are prediction of playing action 1,2,3..., columns are treatments
+#' @param pred_i Model prediction for a theory (matrix of doubles/data.frame): rows are prediction of playing action 1,2,3..., columns are treatments
+#' @param pred_j Model prediction for a theory (matrix of doubles/data.frame): rows are prediction of playing action 1,2,3..., columns are treatments
 #'
 #' @return The z score of testing theory I against theory J, given the data
 #'
 #' @examples (missing)
 #' @export
-vuong_statistic <- function(data, pred_I, pred_J) {
-  # number of treatments and of actions are the same in data, pred_I and pred_J
+vuong_statistic <- function(data, pred_i, pred_j) {
+  # number of treatments and of actions are the same in data, pred_i and pred_j
   stopifnot(
-    all.equal(dim(data), dim(pred_I), check.names = FALSE, check.attributes = FALSE),
-    all.equal(dim(data), dim(pred_J), check.names = FALSE, check.attributes = FALSE)
+    all.equal(dim(data), dim(pred_i), check.names = FALSE, check.attributes = FALSE),
+    all.equal(dim(data), dim(pred_j), check.names = FALSE, check.attributes = FALSE)
   )
 
   # the sum of all predictions for each treatment sum up to one
-  for (treatment in 1:ncol(pred_I)) {
+  for (treatment in seq_len(pred_i)) {
     stopifnot(
-      all.equal(colSums(pred_I)[treatment], 1, check.names = FALSE, check.attributes = FALSE),
-      all.equal(colSums(pred_J)[treatment], 1, check.names = FALSE, check.attributes = FALSE)
+      all.equal(colSums(pred_i)[treatment], 1, check.names = FALSE, check.attributes = FALSE),
+      all.equal(colSums(pred_j)[treatment], 1, check.names = FALSE, check.attributes = FALSE)
     )
   }
 
@@ -29,7 +29,7 @@ vuong_statistic <- function(data, pred_I, pred_J) {
     }
   }
 
-  result <- get_llr(data, pred_I, pred_J) / get_variance_of_llr(data, pred_I, pred_J)^(.5)
+  result <- get_llr(data, pred_i, pred_j) / get_variance_of_llr(data, pred_i, pred_j)^(.5)
   return(result)
 }
 

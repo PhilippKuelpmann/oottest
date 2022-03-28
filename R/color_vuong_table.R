@@ -10,27 +10,25 @@
 #' @noRd
 color_vuong_table <- function(vuong_table) {
   # TODO: replace darkred with {rgb}{0.55, 0.0, 0.0}?
-  # TODO: require xtable
-  # require("xtable")
 
   vuong_table[is.na(vuong_table)] <- 0
-  makeGreen <- function(x) {
+  make_green <- function(x) {
     paste0(" \\cellcolor{green!50} ", x)
   }
-  makeLessGreen <- function(x) {
+  make_less_green <- function(x) {
     paste0(" \\cellcolor{green!25} ", x)
   }
-  makeRed <- function(x) {
+  make_red <- function(x) {
     paste0(" \\cellcolor{darkred} \\color{white} ", x)
   }
-  makeLessRed <- function(x) {
+  make_less_red <- function(x) {
     paste0(" \\cellcolor{darkred!80} \\color{white} ", x)
   }
   mat <- round(vuong_table, digits = 2)
-  mat <- ifelse(mat < -2, makeRed(mat),
-    ifelse(mat > 2, makeGreen(mat),
-      ifelse(mat < -1, makeLessRed(mat),
-        ifelse(mat > 1, makeLessGreen(mat), mat)
+  mat <- ifelse(mat < -2, make_red(mat),
+    ifelse(mat > 2, make_green(mat),
+      ifelse(mat < -1, make_less_red(mat),
+        ifelse(mat > 1, make_less_green(mat), mat)
       )
     )
   )
