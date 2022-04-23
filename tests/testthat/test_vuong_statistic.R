@@ -18,10 +18,7 @@ vuong_by_hand <- llr_by_hand / var_by_hand^(.5)
 expect_equal(get_llr(simple_data, th_1, th_2), llr_by_hand)
 expect_equal(get_variance_of_llr(simple_data, th_1, th_2), var_by_hand)
 expect_equal(vuong_statistic(simple_data, th_1, th_2), vuong_by_hand)
-
+expect_error(vuong_statistic(matrix(data = .5, nrow = 2, ncol = 1, byrow = TRUE), th_1, th_2))
 
 # Vuong score with more data should be larger
 expect_gte(abs(vuong_statistic(simple_data * 3, th_1, th_2)), abs(vuong_statistic(simple_data, th_1, th_2)))
-
-# Test that input int
-# expect_

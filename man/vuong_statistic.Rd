@@ -21,8 +21,8 @@ Implementation of the Vuong test for our setting
 }
 \examples{
 vuong_statistic(
-    data_two_action_games,
-    predictions_two_action_games[,,1],
-    predictions_two_action_games[,,2]
-    )
+  data_two_action_games,
+  predictions_two_action_games[, , 1],
+  predictions_two_action_games[, , 2]
+)
 }

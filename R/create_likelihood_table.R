@@ -4,9 +4,7 @@
 #' @param predictions Model prediction for one theory: rows/cols as data
 #'
 #' @return Table of z-scores for all comparisons
-#'
-#' @examples (missing)
-#' @export
+#' @noRd
 create_likelihood_table <- function(data, predictions) {
   output_table <- c()
   for (i in 1:14) {

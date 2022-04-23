@@ -118,8 +118,8 @@ The data was created as follows:
 
 Creating likelihood tables.
 ```{r}
-llh_table_2 <- create_likelihood_table(data_two_action_games, predictions_two_action_games)
-llh_table_3 <- create_likelihood_table(data_three_action_games, predictions_three_action_games)
+llh_table_2 <- oottest:::create_likelihood_table(data_two_action_games, predictions_two_action_games)
+llh_table_3 <- oottest:::create_likelihood_table(data_three_action_games, predictions_three_action_games)
 llh_table_all <- cbind(llh_table_2,llh_table_3)
 ```
 

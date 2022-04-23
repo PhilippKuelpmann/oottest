@@ -4,8 +4,6 @@
 #' @param prediction Model prediction for one theory: rows/cols as data
 #'
 #' @return Table of z-scores for all comparisons
-#'
-#' @examples (missing)
 #' @noRd
 get_log_lh <- function(data, prediction, with_constant = FALSE) {
   output <- colSums(data * log(prediction))
