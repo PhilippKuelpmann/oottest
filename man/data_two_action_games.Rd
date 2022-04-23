@@ -5,7 +5,6 @@
 \alias{data_two_action_games}
 \title{Data from the two-action games}
 \format{
-Need to reformat anyway ...
 \describe{
   \item{rows}{actions}
   \item{columns}{treatments}
@@ -20,6 +19,7 @@ Need to reformat anyway ...
 data_two_action_games
 }
 \description{
-Columns are different treatments, rows are actions and the cells are the number of subjects who chose each action on each treatment
+This is the choice data from Kuelpmann and Kuzmics (2022) for the two-action games, i.e., Hawk-Dove and Matching Pennies.
+For an explanation of the different treatments and the games, please refer to the paper.
 }
 \keyword{datasets}

@@ -17,7 +17,6 @@ A matrix with 3 rows and 2 columns
 simple_test_data
 }
 \description{
-Mostly to test data im/exporting
-Don't make accessible to users?
+This is just very simple test data, mostly used for testing and demonstration purposes.
 }
 \keyword{datasets}

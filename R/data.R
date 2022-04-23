@@ -1,8 +1,9 @@
 #' Data from the two-action games
 #'
-#' Columns are different treatments, rows are actions and the cells are the number of subjects who chose each action on each treatment
+#' This is the choice data from Kuelpmann and Kuzmics (2022) for the two-action games, i.e., Hawk-Dove and Matching Pennies.
+#' For an explanation of the different treatments and the games, please refer to the paper.
 #'
-#' @format Need to reformat anyway ...
+#' @format
 #' \describe{
 #'   \item{rows}{actions}
 #'   \item{columns}{treatments}
@@ -14,7 +15,8 @@
 
 #' Data from the three-action games
 #'
-#' Blabla!
+#' This is the choice data from Kuelpmann and Kuzmics (2022) for the three-action games, i.e., Hawk-Middle-Dove and Rock-Paper-Scissor.
+#' For an explanation of the different treatments and the games, please refer to the paper.
 #'
 #' @format Need to reformat anyway ...
 #' \describe{
@@ -29,10 +31,11 @@
 
 #' Predictions for the two-action games
 #'
-#' Blabla!
+#' These are the prediction of every theory considered in Kuelpmann and Kuzmics (2022) for the two-action games.
+#' For a explanation of the different theories, treatments and the games, please refer to the paper.
 #'
-#' @format Need to reformat anyway ...
-#'\describe{
+#' @format
+#' \describe{
 #'   \item{rows}{predicted probabilities of actions}
 #'   \item{columns}{treatments}
 #'   \item{tables}{different theories}
@@ -45,9 +48,10 @@
 
 #' Predictions for the three-action games
 #'
-#' Blabla!
+#' These are the prediction of every theory considered in Kuelpmann and Kuzmics (2022) for the three-action games.
+#' For a explanation of the different theories, treatments and the games, please refer to the paper.
 #'
-#' @format Need to reformat anyway ...
+#' @format
 #' \describe{
 #'   \item{rows}{predicted probabilities of actions}
 #'   \item{columns}{treatments}
@@ -61,8 +65,7 @@
 
 #' Simple Test Data
 #'
-#' Mostly to test data im/exporting
-#' Don't make accessible to users?
+#' This is just very simple test data, mostly used for testing and demonstration purposes.
 #'
 #' @format A matrix with 3 rows and 2 columns
 #' \describe{
