@@ -1,5 +1,5 @@
 ---
-title: "Reproduce Külpmann, Kuzmics"
+title: "Reproducing tables and results from Külpmann and Kuzmics (2022)"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 vignette: >
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 This vignette shows how to reproduce every table, graph and test from @kulpmann2020comparing.
 
 # Set up
-The data as well as predictions for each theory mentioned in @kulpmann2020comparing are included as additional data to the package "oottest". Thus, you only need to install the package oottest. Furthermore, we use the package xtables to convert the R tables to latex tables which we use in the paper. 
+The data as well as predictions for each theory mentioned in @kulpmann2020comparing are included as additional data to the package "oottest". Thus, you only need to install the package. Furthermore, we use the package xtables (@dahl2009xtable) to convert the R tables to latex tables which we use in the paper. 
 
 ```{r setup, warning=FALSE}
 library("oottest")
@@ -44,7 +44,7 @@ To access the documentation for e.g., the data from the two action games, type:
 
 
 # Tables and figures from the main paper
-## Vuong tables (table 1 and 2)
+## Vuong matrix (table 1 and 2)
 Table 1 and 2 consist of 6 Vuong matrices, one for each of the different types of games:
 
 * Two-action games
@@ -112,7 +112,7 @@ oottest:::color_vuong_table(result)
 ### Calculating likelihoods
 The third and final graph in the paper is a comparison of log-likelihood differences for four different theories.
 
-The graph itself is created in latex using Tikz (TODO: Cite) which uses the data from R as inputs.
+The graph itself is created in latex using Tikz (@tantau2013a) which uses the data from R as inputs.
 
 The data was created as follows:
 
@@ -147,14 +147,14 @@ for (theory in theories) {
 
 
 ## Recreating tables from the Online Appendix
-
+To recreate the tables from the Online Appendix use:
 ```{r, results='hide'}
 vuong_table_2 <- vuong_matrix(data_two_action_games, predictions_two_action_games)
 vuong_table_3 <- vuong_matrix(data_three_action_games, predictions_three_action_games)
 ```
 
 ### Log-likelihoods
-requires the creation of llh from above
+Creating tables from the log-likelihoods from above (requires xtable):
 
 ```{r, results='hide'}
 xtable(llh_table_2, type = "latex")
@@ -163,7 +163,8 @@ xtable(llh_table_3, type = "latex")
 
 
 ### Testing theories individually
-```{r, warnings=FALSE, message = FALSE, results='hide'}
+The following code gives us the results of the tests for each theory, if it generates predictions different from the observed data:
+```{r, warning=FALSE, message = FALSE, results='hide'}
 chi_sq_hdg <- oottest:::get_all_chi_sq(data_two_action_games[,1:10], predictions_two_action_games[,1:10,])
 chi_sq_mp1 <- oottest:::get_all_chi_sq(data_two_action_games[,11:15], predictions_two_action_games[,11:15,])
 chi_sq_mp2 <- oottest:::get_all_chi_sq(data_two_action_games[,16:20], predictions_two_action_games[,16:20,])
@@ -174,13 +175,13 @@ chi_sq_rsp2 <- oottest:::get_all_chi_sq(data_three_action_games[,16:20], predict
 chi_sq_3 <- oottest:::get_all_chi_sq(data_three_action_games, predictions_three_action_games)
 ```
 
-Example for the hawk-dove games:
+Here the results for the hawk-dove games:
 ```{r, echo = FALSE, results = 'asis'}
 knitr::kable(chi_sq_hdg, caption="Chi-squared test for the hawk-dove games")
 ```
 
-Now, to create the latex tables as seen in the paper:
-```{r}
+Now, to create the latex tables as seen in the paper. These can be just copied into the tex document.
+```{r, results='hide'}
 table_2 <- cbind(chi_sq_hdg, chi_sq_mp1, chi_sq_mp2, chi_sq_2)
 table_3 <- cbind(chi_sq_ac, chi_sq_rsp1, chi_sq_rsp2, chi_sq_3)
 xtable(table_2, type = "latex", digits=c(0,2,8,2,8,2,8,2,8))
@@ -189,7 +190,8 @@ xtable(table_3, type = "latex", digits=c(0,2,8,2,8,2,8,2,8))
 
 ## Data and theory predictions
 ### Predictions
-```{r}
+Creating tex code of a table of all predictions:
+```{r, results='hide'}
 pred_2 <- round(predictions_two_action_games, 3)
 th_names <- names(predictions_two_action_games[1,1,])
 output <- c()
@@ -211,7 +213,8 @@ xtable(output, type = "latex")
 ```
 
 ### Data
-```{r}
+Creating tex code to display the summary of the choice data of the experiments:
+```{r, results='hide'}
 xtable(data_two_action_games, type = "latex", digits=0)
 xtable(data_three_action_games, type = "latex", digits=0)
 ```
