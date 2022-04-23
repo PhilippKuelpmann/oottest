@@ -1,6 +1,6 @@
 #' Data from the two-action games
 #'
-#' Blabla!
+#' Columns are different treatments, rows are actions and the cells are the number of subjects who chose each action on each treatment
 #'
 #' @format Need to reformat anyway ...
 #' \describe{
