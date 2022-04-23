@@ -6,8 +6,7 @@
 #'
 #' @return The z score of testing theory I against theory J, given the data
 #'
-#' @examples vuong_statistic(data_two_action_game, pred_I, pred_J)
-#'
+#' @examples vuong_statistic(data_two_action_games, predictions_two_action_games[,,1], predictions_two_action_games[,,2])
 #' @export
 vuong_statistic <- function(data, pred_i, pred_j) {
   # number of treatments and of actions are the same in data, pred_i and pred_j
@@ -17,7 +16,7 @@ vuong_statistic <- function(data, pred_i, pred_j) {
   )
 
   # the sum of all predictions for each treatment sum up to one
-  for (treatment in seq_len(pred_i)) {
+  for (treatment in seq_len(ncol(pred_i))) {
     stopifnot(
       all.equal(colSums(pred_i)[treatment], 1, check.names = FALSE, check.attributes = FALSE),
       all.equal(colSums(pred_j)[treatment], 1, check.names = FALSE, check.attributes = FALSE)
@@ -42,7 +41,7 @@ vuong_statistic <- function(data, pred_i, pred_j) {
 #'
 #' @return Table of z-scores for all comparisons
 #'
-#' @examples vuong_matrix(data, theories)
+#' @examples vuong_matrix(data_two_action_games, predictions_two_action_games)
 #' @export
 vuong_matrix <- function(data, theories) {
   for (col in data) {
