@@ -5,7 +5,6 @@
 \alias{predictions_two_action_games}
 \title{Predictions for the two-action games}
 \format{
-Need to reformat anyway ...
 \describe{
   \item{rows}{predicted probabilities of actions}
   \item{columns}{treatments}
@@ -21,6 +20,7 @@ Need to reformat anyway ...
 predictions_two_action_games
 }
 \description{
-Blabla!
+These are the prediction of every theory considered in Kuelpmann and Kuzmics (2022) for the two-action games.
+For a explanation of the different theories, treatments and the games, please refer to the paper.
 }
 \keyword{datasets}

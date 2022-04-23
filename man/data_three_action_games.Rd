@@ -20,6 +20,7 @@ Need to reformat anyway ...
 data_three_action_games
 }
 \description{
-Blabla!
+This is the choice data from Kuelpmann and Kuzmics (2022) for the three-action games, i.e., Hawk-Middle-Dove and Rock-Paper-Scissor.
+For an explanation of the different treatments and the games, please refer to the paper.
 }
 \keyword{datasets}
