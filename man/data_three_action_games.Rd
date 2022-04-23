@@ -9,6 +9,7 @@ Need to reformat anyway ...
 \describe{
   \item{rows}{actions}
   \item{columns}{treatments}
+  \item{cells}{number of subjects who chose each action on each treatment}
   ...
 }
 }

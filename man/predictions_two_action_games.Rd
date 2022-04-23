@@ -7,8 +7,10 @@
 \format{
 Need to reformat anyway ...
 \describe{
-  \item{rows}{actions}
+  \item{rows}{predicted probabilities of actions}
   \item{columns}{treatments}
+  \item{tables}{different theories}
+  \item{cells}{probability of choosing an action on each treatment depending on the theory}
   ...
 }
 }

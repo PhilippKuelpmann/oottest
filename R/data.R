@@ -20,6 +20,7 @@
 #' \describe{
 #'   \item{rows}{actions}
 #'   \item{columns}{treatments}
+#'   \item{cells}{number of subjects who chose each action on each treatment}
 #'   ...
 #' }
 #' @source \url{http://hdg.kuelpmann.org/}
@@ -31,9 +32,11 @@
 #' Blabla!
 #'
 #' @format Need to reformat anyway ...
-#' \describe{
-#'   \item{rows}{actions}
+#'\describe{
+#'   \item{rows}{predicted probabilities of actions}
 #'   \item{columns}{treatments}
+#'   \item{tables}{different theories}
+#'   \item{cells}{probability of choosing an action on each treatment depending on the theory}
 #'   ...
 #' }
 #' @source \url{http://hdg.kuelpmann.org/}
@@ -46,8 +49,10 @@
 #'
 #' @format Need to reformat anyway ...
 #' \describe{
-#'   \item{rows}{actions}
+#'   \item{rows}{predicted probabilities of actions}
 #'   \item{columns}{treatments}
+#'   \item{tables}{different theories}
+#'   \item{cells}{probability of choosing an action on each treatment depending on the theory}
 #'   ...
 #' }
 #' @source \url{http://hdg.kuelpmann.org/}
@@ -63,6 +68,7 @@
 #' \describe{
 #'   \item{rows}{actions}
 #'   \item{columns}{treatments}
+#'   \item{cells}{number of subjects who chose each action on each treatment}
 #'   ...
 #' }
 "simple_test_data"
