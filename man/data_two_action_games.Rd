@@ -9,6 +9,7 @@ Need to reformat anyway ...
 \describe{
   \item{rows}{actions}
   \item{columns}{treatments}
+  \item{cells}{number of subjects who chose each action on each treatment}
   ...
 }
 }
@@ -19,6 +20,6 @@ Need to reformat anyway ...
 data_two_action_games
 }
 \description{
-Blabla!
+Columns are different treatments, rows are actions and the cells are the number of subjects who chose each action on each treatment
 }
 \keyword{datasets}

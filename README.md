@@ -26,6 +26,16 @@ devtools::install_github("PhilippKuelpmann/oottest")
 
 ## Example
 
+Input data should be structured in the following way: - columns
+represent different treatments - rows represent actions - cells record
+the number of subjects who chose each action on each treatment
+
+Prediction data should be structured in the following way: - columns
+represent different treatments - rows represent the predicted
+probability of each action - the different tables represent the
+different theories - cells record the probability of choosing an action
+on each treatment depending on the theory
+
 Here is a basic example on how you can use the vuong_statistic using
 predictions from two theories:
 

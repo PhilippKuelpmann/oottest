@@ -7,7 +7,7 @@
 vuong_statistic(data, pred_i, pred_j)
 }
 \arguments{
-\item{data}{Data of the experiment (matrix of ints/data.frame): columns are observations of action 1,2,3..., rows are treatments. matrix rows: choices, columns: treatments}
+\item{data}{Data of the experiment (matrix of ints/data.frame): columns are treatments, rows are actions, values are number of subjects who chose each action on each treatment}
 
 \item{pred_i}{Model prediction for a theory (matrix of doubles/data.frame): rows are prediction of playing action 1,2,3..., columns are treatments}
 
@@ -20,5 +20,5 @@ The z score of testing theory I against theory J, given the data
 Implementation of the Vuong test for our setting
 }
 \examples{
-(missing)
+vuong_statistic(data_two_action_game, pred_I, pred_J)
 }

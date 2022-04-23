@@ -18,5 +18,5 @@ Table of z-scores for all comparisons
 Getting a vuong matrix
 }
 \examples{
-(missing)
+vuong_matrix(data_theories)
 }
