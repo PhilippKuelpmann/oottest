@@ -6,7 +6,7 @@
 \alias{oottest-package}
 \title{oottest: Out-of-Treatment Testing}
 \description{
-Implements the out-of-treatment testing from Kuelpmann and Kuzmics (2020). Out-of treatment testing allows for a direct, pairwise likelihood comparison of theories, calibrated with pre-existing data.
+Implements the out-of-treatment testing from Kuelpmann and Kuzmics (2020) <doi:10.2139/ssrn.3441675> based on the Vuong Test introduced in Vuong (1989) <doi:10.2307/1912557>. Out-of treatment testing allows for a direct, pairwise likelihood comparison of theories, calibrated with pre-existing data.
 }
 \seealso{
 Useful links:
