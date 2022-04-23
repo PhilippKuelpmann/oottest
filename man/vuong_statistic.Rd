@@ -20,5 +20,9 @@ The z score of testing theory I against theory J, given the data
 Implementation of the Vuong test for our setting
 }
 \examples{
-vuong_statistic(data_two_action_game, pred_I, pred_J)
+vuong_statistic(
+    data_two_action_games,
+    predictions_two_action_games[,,1],
+    predictions_two_action_games[,,2]
+    )
 }

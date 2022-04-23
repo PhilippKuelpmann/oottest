@@ -18,5 +18,5 @@ Table of z-scores for all comparisons
 Getting a vuong matrix
 }
 \examples{
-vuong_matrix(data_theories)
+vuong_matrix(data_two_action_games, predictions_two_action_games)
 }
