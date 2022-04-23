@@ -26,9 +26,9 @@ devtools::install_github("PhilippKuelpmann/oottest")
 
 ## Example
 
-Input data should be structured in the following way: *columns represent
-different treatments *rows represent actions \*cells record the number
-of subjects who chose each action on each treatment
+Input data should be structured in the following way: \* columns
+represent different treatments \* rows represent actions \* cells record
+the number of subjects who chose each action on each treatment
 
 Prediction data should be structured in the following way: - columns
 represent different treatments - rows represent the predicted
