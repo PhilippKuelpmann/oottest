@@ -14,7 +14,7 @@
 }
 }
 \source{
-\url{http://hdg.kuelpmann.org/}
+\url{https://homepage.univie.ac.at/philipp.kuelpmann/hdg.html}
 }
 \usage{
 predictions_three_action_games

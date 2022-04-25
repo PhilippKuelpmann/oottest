@@ -13,7 +13,7 @@
 }
 }
 \source{
-\url{http://hdg.kuelpmann.org/}
+\url{https://homepage.univie.ac.at/philipp.kuelpmann/hdg.html}
 }
 \usage{
 data_two_action_games

@@ -10,7 +10,7 @@
 #'   \item{cells}{number of subjects who chose each action on each treatment}
 #'   ...
 #' }
-#' @source \url{http://hdg.kuelpmann.org/}
+#' @source \url{https://homepage.univie.ac.at/philipp.kuelpmann/hdg.html}
 "data_two_action_games"
 
 #' Data from the three-action games
@@ -25,7 +25,7 @@
 #'   \item{cells}{number of subjects who chose each action on each treatment}
 #'   ...
 #' }
-#' @source \url{http://hdg.kuelpmann.org/}
+#' @source \url{https://homepage.univie.ac.at/philipp.kuelpmann/hdg.html}
 "data_three_action_games"
 
 
@@ -42,7 +42,7 @@
 #'   \item{cells}{probability of choosing an action on each treatment depending on the theory}
 #'   ...
 #' }
-#' @source \url{http://hdg.kuelpmann.org/}
+#' @source \url{https://homepage.univie.ac.at/philipp.kuelpmann/hdg.html}
 "predictions_two_action_games"
 
 
@@ -59,7 +59,7 @@
 #'   \item{cells}{probability of choosing an action on each treatment depending on the theory}
 #'   ...
 #' }
-#' @source \url{http://hdg.kuelpmann.org/}
+#' @source \url{https://homepage.univie.ac.at/philipp.kuelpmann/hdg.html}
 "predictions_three_action_games"
 
 

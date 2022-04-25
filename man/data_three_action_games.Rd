@@ -14,7 +14,7 @@ Need to reformat anyway ...
 }
 }
 \source{
-\url{http://hdg.kuelpmann.org/}
+\url{https://homepage.univie.ac.at/philipp.kuelpmann/hdg.html}
 }
 \usage{
 data_three_action_games
